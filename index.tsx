@@ -29,6 +29,7 @@ class App extends Component<AppProps, AppState> {
     return (
       <div>
         <Hello name={this.state.name} />
+        this.state.recipes.map( (strText : string) => <li>{strText}</li> );
         <RecipeCard text={this.state.recipes[0]}/>
         <RecipeCard text={this.state.recipes[1]}/>
       </div>
