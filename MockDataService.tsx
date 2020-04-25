@@ -1,5 +1,5 @@
 
-import DataService from './YSLO-DataService';
+import {DataService} from './DataService';
 
 export default class MockDataService extends DataService
 {
@@ -8,4 +8,3 @@ export default class MockDataService extends DataService
     return ['This is a recipe', 'This is a better recipe'];
   }
 }
-

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Hello from './Hello';
-import RecipeCard from './RecipeCard';
-import RecipeProps from './RecipeCard';
-import MockDataService from './MockDataService';
+import {RecipeCard} from './RecipeCard';
+import {MockDataService} from './MockDataService';
 import './css/kitchen.css';
 
 interface AppProps { }
@@ -15,7 +14,7 @@ interface AppState {
 class App extends Component<AppProps, AppState> {
   constructor(props) {
     super(props);
-    this.service = new MockDataService();
+  //  this.service = new MockDataService();
     this.state = {
       name: 'React',
       recipes: ['This is a recipe', 'This is a better recipe']
