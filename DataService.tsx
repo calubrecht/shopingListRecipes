@@ -1,5 +1,11 @@
+export interface RecipeData
+{
+  name: string;
+  text: string;
+}
+
 export abstract class DataService
 {
-  abstract getRecipes() : Promise<string[]>;
+  abstract getRecipes() : Promise<RecipeData[]>;
 
 }

@@ -1,13 +1,18 @@
 
 import {DataService} from './DataService';
+import {RecipeData} from './DataService';
 
 export class MockDataService extends DataService
 {
-  getRecipes() : Promise<string[]>
+  getRecipes() : Promise<RecipeData[]>
   {
     return new Promise(function (resolve, reject)
     {
-      resolve(['This is a recipe', 'This is a better recipe', 'This is the best recipe of all']);
+      resolve(
+        [
+          {name:'Good Recipe', text:'This is a recipe'},
+          {name:'Better Recipe', text:'This is a better recipe'},
+          {name:'Awesomesauce Recipe', text:'This is the best recipe of all'}]);
     });
   }
 }

@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import Hello from './Hello';
 import {RecipeCard} from './RecipeCard';
 import {DataService} from './DataService';
+import {RecipeData} from './DataService';
 import {MockDataService} from './MockDataService';
 import './css/kitchen.css';
 
@@ -26,12 +27,11 @@ class App extends Component<AppProps, AppState> {
   }
 
   render() {
+    let items =  0
     return (
       <div>
         <Hello name={this.state.name} />
-        this.state.recipes.map( (strText : string) => <li>{strText}</li> );
-        <RecipeCard text={this.state.recipes[0]}/>
-        <RecipeCard text={this.state.recipes[1]}/>
+        {this.state.recipes.map( (recipeData : RecipeData) => <RecipeCard key={recipeData.name} recipeData={recipeData}/> )}
       </div>
     );
   }

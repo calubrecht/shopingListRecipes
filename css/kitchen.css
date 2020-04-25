@@ -211,7 +211,17 @@ span.dayLabel
   cursor: pointer;
 }
 
-div.cardBody {background:white; border-width: 1px; border-style: solid; padding: 5px; margin:1px; border-radius: 15px; width:335px}
+div.recipeCard { width:350px; }
+
+.cardHeader { display:flex; justify-content:flex-end}
+
+.cardTitle {background :white;
+border-width: 1px 1px 0px 1px; border-style: solid;
+padding: 3px 8px 0px 3px; position:relative; bottom:-2px;
+margin-right:2px;
+text-align:right; border-radius:0px 20px 0px 0px; z-index:5;}
+
+div.cardBody {background:white; border-width: 1px; border-style: solid; padding: 5px; margin:1px; border-radius: 15px 0px 0px 15px; width:335px;}
 
 @media only screen and (max-width: 650px)
 {
