@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Hello from './Hello';
 import {RecipeCard} from './RecipeCard';
+import {DataService} from './DataService';
 import {MockDataService} from './MockDataService';
 import './css/kitchen.css';
 
@@ -12,12 +13,15 @@ interface AppState {
 }
 
 class App extends Component<AppProps, AppState> {
+  service : DataService;
+
   constructor(props) {
     super(props);
-  //  this.service = new MockDataService();
+    this.updateRecipes = this.updateRecipes.bind(this);
+    this.service = new MockDataService();
     this.state = {
       name: 'React',
-      recipes: ['This is a recipe', 'This is a better recipe']
+      recipes: []
     };
   }
 
@@ -29,6 +33,16 @@ class App extends Component<AppProps, AppState> {
         <RecipeCard text={this.state.recipes[1]}/>
       </div>
     );
+  }
+
+  componentDidMount()
+  {
+    this.service.getRecipes().then(this.updateRecipes);
+  }
+
+  updateRecipes(recipes: string[])
+  {
+    this.setState({recipes: recipes});
   }
 }
 

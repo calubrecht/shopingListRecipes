@@ -1,4 +1,5 @@
 export abstract class DataService
 {
-  abstract getRecipes() : string[];
+  abstract getRecipes() : Promise<string[]>;
+
 }

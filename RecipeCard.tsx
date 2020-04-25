@@ -5,7 +5,7 @@ export interface RecipeProps
   text: string
 }
 
-export default class RecipeCard extends React.Component<RecipeProps>
+export class RecipeCard extends React.Component<RecipeProps>
 {
 
 render()

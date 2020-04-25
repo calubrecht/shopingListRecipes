@@ -1,10 +1,10 @@
 
 import {DataService} from './DataService';
 
-export default class MockDataService extends DataService
+export class MockDataService extends DataService
 {
-  getRecipes() : string[]
+  getRecipes() : Promise<string[]>
   {
-    return ['This is a recipe', 'This is a better recipe'];
+    return new Promise(() => ['This is a recipe', 'This is a better recipe']);
   }
 }
