@@ -12,7 +12,9 @@ export class MockDataService extends DataService
         [
           {name:'Good Recipe', text:'This is a recipe'},
           {name:'Better Recipe', text:'This is a better recipe'},
-          {name:'Awesomesauce Recipe', text:'This is the best recipe of all'}]);
+          {name:'Awesomesauce Recipe', text:'This is the best recipe of all',
+             keyIngredients:['Bacon', 'More Bacon'],
+             commonIngredients:['Flour', 'Onions', 'Cheesy bits']}]);
     });
   }
 }
