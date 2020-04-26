@@ -5,12 +5,14 @@ import {RecipeCard} from './RecipeCard';
 import {DataService} from './DataService';
 import {RecipeData} from './DataService';
 import {MockDataService} from './MockDataService';
+import {DataServiceImpl} from './DataServiceImpl';
 import './css/kitchen.css';
 
 interface AppProps { }
 interface AppState {
   name: string,
-  recipes: RecipeData[]
+  recipes: RecipeData[],
+  error: string
 }
 
 class App extends Component<AppProps, AppState> {
@@ -19,10 +21,19 @@ class App extends Component<AppProps, AppState> {
   constructor(props : AppProps) {
     super(props);
     this.updateRecipes = this.updateRecipes.bind(this);
-    this.service = new MockDataService();
+    this.reportError = this.reportError.bind(this);
+    if (process.env.REACT_APP_MOCK)
+    {
+      this.service = new MockDataService();
+    }
+    else
+    {
+      this.service = new DataServiceImpl();
+    }
     this.state = {
       name: 'React',
-      recipes: []
+      recipes: [],
+      error: ''
     };
   }
 
@@ -31,18 +42,24 @@ class App extends Component<AppProps, AppState> {
       <div>
         <Hello name={this.state.name} />
         {this.state.recipes.map( (recipeData : RecipeData) => <RecipeCard key={recipeData.name} recipeData={recipeData}/> )}
+        <div>{this.state.error}</div>
       </div>
     );
   }
 
   componentDidMount()
   {
-    this.service.getRecipes().then(this.updateRecipes);
+    this.service.getRecipes().then(this.updateRecipes).catch(this.reportError);
   }
 
   updateRecipes(recipes: RecipeData[])
   {
     this.setState({recipes: recipes});
+  }
+
+  reportError(error : Error)
+  {
+    this.setState({error: error.message});
   }
 }
 

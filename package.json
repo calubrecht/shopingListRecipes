@@ -12,7 +12,8 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_MOCK=1 react-scripts start",
+    "start-live": "REACT_APP_API_PORT=80 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
