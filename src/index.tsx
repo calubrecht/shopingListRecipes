@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import Hello from './Hello';
+import {Hello} from './Hello';
 import {RecipeCard} from './RecipeCard';
 import {DataService} from './DataService';
 import {RecipeData} from './DataService';
@@ -10,13 +10,13 @@ import './css/kitchen.css';
 interface AppProps { }
 interface AppState {
   name: string,
-  recipes: string[]
+  recipes: RecipeData[]
 }
 
 class App extends Component<AppProps, AppState> {
   service : DataService;
 
-  constructor(props) {
+  constructor(props : AppProps) {
     super(props);
     this.updateRecipes = this.updateRecipes.bind(this);
     this.service = new MockDataService();
@@ -27,7 +27,6 @@ class App extends Component<AppProps, AppState> {
   }
 
   render() {
-    let items =  0
     return (
       <div>
         <Hello name={this.state.name} />
@@ -41,7 +40,7 @@ class App extends Component<AppProps, AppState> {
     this.service.getRecipes().then(this.updateRecipes);
   }
 
-  updateRecipes(recipes: string[])
+  updateRecipes(recipes: RecipeData[])
   {
     this.setState({recipes: recipes});
   }
