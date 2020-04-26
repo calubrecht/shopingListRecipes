@@ -22,6 +22,7 @@ class App extends Component<AppProps, AppState> {
     super(props);
     this.updateRecipes = this.updateRecipes.bind(this);
     this.reportError = this.reportError.bind(this);
+    this.deleteRecipe = this.deleteRecipe.bind(this);
     if (process.env.REACT_APP_MOCK)
     {
       this.service = new MockDataService();
@@ -41,10 +42,19 @@ class App extends Component<AppProps, AppState> {
     return (
       <div>
         <Hello name={this.state.name} />
-        {this.state.recipes.map( (recipeData : RecipeData) => <RecipeCard key={recipeData.name} recipeData={recipeData}/> )}
+        {this.state.recipes.map( (recipeData : RecipeData) => this.renderCard(recipeData))}
         <div>{this.state.error}</div>
       </div>
     );
+  }
+
+  renderCard(recipe : RecipeData)
+  {
+     return (
+      <RecipeCard
+        key={recipe.name}
+        recipeData={recipe}
+        onDelete={ this.deleteRecipe} />);
   }
 
   componentDidMount()
@@ -60,6 +70,16 @@ class App extends Component<AppProps, AppState> {
   reportError(error : Error)
   {
     this.setState({error: error.message});
+  }
+
+  deleteRecipe(recipeName : string)
+  {
+    let recipes = this.state.recipes.filter(e => e.name !== recipeName);
+    if (recipes.length !== this.state.recipes.length)
+    {
+      this.service.deleteRecipe(recipeName);
+      this.setState({recipes: recipes});
+    }
   }
 }
 

@@ -29,6 +29,11 @@ export class DataServiceImpl extends DataService
          .then(this.handleErrors)
          .then(res => this.parseResponse(res));
   }
+  
+  deleteRecipe(name : string) 
+  {
+    // Does nothing, for now
+  }
 
   parseResponse(response : Response)
   {

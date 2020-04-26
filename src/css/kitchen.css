@@ -221,7 +221,14 @@ padding: 3px 8px 0px 3px; position:relative; bottom:-2px;
 margin-right:2px;
 text-align:right; border-radius:0px 20px 0px 0px; z-index:5;}
 
-div.cardBody {background:white; border-width: 1px; border-style: solid; padding: 5px; margin:1px; border-radius: 15px 0px 0px 15px; width:335px;}
+div.cardBody {background:white; border-width: 1px; border-style: solid; padding: 5px; margin:1px; border-radius: 15px 0px 0px 15px; width:335px; position:relative}
+
+div.deleteWidget {position:relative; width: 150px; right:-190px; margin-top:2px}
+div.deleteWidget .confirmBox  {height:28px}
+div.deleteWidget .confirmBox span {position:relative; width: 10px; height:18px; background:silver; padding:2px 2px; border-width:3px; border-style:outset; border-color:dark-gray; margin:0px 2px; top:5px; right:-1px}
+div.deleteWidget .confirmBox span.yes {color:#00aa00}
+div.deleteWidget .confirmBox span.no {color:red}
+div.deleteWidget .deleteButton {position:relative; width: 10px; right:-119px; color:red; background:silver; padding:2px 4px; border-width:3px; border-style:outset; border-color:dark-gray}
 
 li.keyIngredient {color:#0000d0; font-size:larger }
 li.commonIngredient {color:#888888 }

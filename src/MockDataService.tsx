@@ -4,17 +4,31 @@ import {RecipeData} from './DataService';
 
 export class MockDataService extends DataService
 {
+  recipeBook : Map<string, RecipeData>;
+  constructor()
+  {
+    super();
+    this.recipeBook = 
+      new Map([
+          ['Good Recipe',{name:'Good Recipe', text:'This is a recipe'}],
+          ['Better Recipe',{name:'Better Recipe', text:'This is a better recipe'}],
+          ['Awesomesauce Recipe',{name:'Awesomesauce Recipe', text:'This is the best recipe of all',
+             keyIngredients:['Bacon', 'More Bacon'],
+             commonIngredients:['Flour', 'Onions', 'Cheesy bits']}]
+          ]);
+  }
+
   getRecipes() : Promise<RecipeData[]>
   {
-    return new Promise(function (resolve, reject)
+    return new Promise(function (this: MockDataService, resolve : any, reject : any)
     {
-      resolve(
-        [
-          {name:'Good Recipe', text:'This is a recipe'},
-          {name:'Better Recipe', text:'This is a better recipe'},
-          {name:'Awesomesauce Recipe', text:'This is the best recipe of all',
-             keyIngredients:['Bacon', 'More Bacon'],
-             commonIngredients:['Flour', 'Onions', 'Cheesy bits']}]);
-    });
+      resolve(Array.from(this.recipeBook.values()));
+    }.bind(this));
   }
+  
+  deleteRecipe(name : string) 
+  {
+    this.recipeBook.delete(name);
+  }
+
 }
