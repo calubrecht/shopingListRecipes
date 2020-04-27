@@ -25,14 +25,15 @@ export class DeleteWidget extends React.Component<DWProps, DWState>
   {
     if (this.state.confirming)
     {
-      return <div className="deleteWidget"><div className="confirmBox">Are you sure?
-        <span className="yes" onClick={() => this.confirmYes()}>Y </span>
-        <span className="no" onClick={() => this.confirmNo()}> N </span>
-        </div></div>;
+      return <div className="deleteWidget">
+        <span className="label">Are you sure?</span>
+        <span className="button yes" onClick={() => this.confirmYes()}>Y </span>
+        <span className="button no" onClick={() => this.confirmNo()}> N </span>
+        </div>;
     }
     else
     {
-      return <div className="deleteWidget"><div className="deleteButton" onClick={() => this.confirmDelete()} >X</div></div>;
+      return <div className="deleteWidget"><span className="button delete" onClick={() => this.confirmDelete()} > X </span></div>;
     }
   }
 
