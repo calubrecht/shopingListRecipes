@@ -24,6 +24,7 @@ export class RecipeCard extends React.Component<RecipeProps>
           <span className="cardTitle"> {this.props.recipeData.name}</span>        </div>
           <div className="cardBody">
             <DeleteWidget name={this.props.recipeData.name} onDelete={() => this.delete()} />
+            {this.renderEditBtn()}
             {this.props.recipeData.text}
             <ul>
                {this.props.recipeData.keyIngredients && this.props.recipeData.keyIngredients.map( ( ing : string) => <li  key={ing} className="keyIngredient">{ing}</li> )}
@@ -35,6 +36,11 @@ export class RecipeCard extends React.Component<RecipeProps>
       </div>
       </div>
       );
+  }
+
+  renderEditBtn()
+  {
+    return <div className="editBtn"><img src={require('./images-/pencil.png')}/></div>
   }
   
   componentDidMount () {

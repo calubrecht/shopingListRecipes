@@ -221,14 +221,16 @@ padding: 3px 8px 0px 3px; position:relative; bottom:-2px;
 margin-right:2px;
 text-align:right; border-radius:0px 20px 0px 0px; z-index:5;}
 
-div.cardBody {background:white; border-width: 1px; border-style: solid; padding: 5px; margin:1px; border-radius: 15px 0px 0px 15px; width:360px; position:relative}
+div.cardBody {background:white; border-width: 1px; border-style: solid; padding: 5px; margin:1px; border-radius: 15px 0px 0px 15px; width:360px; position:relative; min-height:100px}
 
-div.deleteWidget {float:right; position:relative; width: 150px;  margin-top:2px; height:28px}
+div.deleteWidget {float:right; position:relative; width: 150px;  margin-top:2px; height:28px; margin-bottom:4px}
 div.deleteWidget span.button {position:absolute; width: 12px; height:18px; background:silver; padding:2px 2px; border-width:3px; border-style:outset; border-color:dark-gray; top:5px; }
 div.deleteWidget span.label {position:absolute; right:60px; top:8px }
 div.deleteWidget span.yes {color:#00aa00; right:30px}
 div.deleteWidget span.no {color:red; right:5px}
 div.deleteWidget span.delete {color:red; right:5px}
+
+div.editBtn {float:right; position:relative; width: 24px;  margin-top:2px; height:30px; clear:right; padding:2px}
 
 li.keyIngredient {color:#0000d0; font-size:larger }
 li.commonIngredient {color:#888888 }
