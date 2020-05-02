@@ -233,6 +233,27 @@ div.deleteWidget span.delete {color:red; right:5px}
 li.keyIngredient {color:#0000d0; font-size:larger }
 li.commonIngredient {color:#888888 }
 
+.grid { position: relative; }
+.item {
+  display:block;
+  position: absolute;
+  width: 374px;
+  z-index: 1;
+
+}
+.muuri {
+  position: relative;
+}
+.muuri-item-dragging {
+  z-index: 3;
+}
+.muuri-item-releasing {
+  z-index: 2;
+}
+.muuri-item-hidden {
+  z-index: 0;
+}
+
 @media only screen and (max-width: 650px)
 {
   div#body

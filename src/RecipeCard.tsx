@@ -5,15 +5,20 @@ import {DeleteWidget} from './DeleteWidget';
 export interface RecipeProps
 {
   recipeData : RecipeData,
+  onMount(card: any) : void
+  onUnMount(card: any) : void
   onDelete(recipe: string) : void
 }
 
 export class RecipeCard extends React.Component<RecipeProps>
 {
+  domElement : any;
 
   render()
   {
     return(
+          <div className="item" ref={el => this.domElement = el}>
+          <div className="item-content">
           <div className="recipeCard">
           <div className="cardHeader">
           <span className="cardTitle"> {this.props.recipeData.name}</span>        </div>
@@ -27,7 +32,17 @@ export class RecipeCard extends React.Component<RecipeProps>
 
           </div>
         </div>
+      </div>
+      </div>
       );
+  }
+  
+  componentDidMount () {
+    this.props.onMount(this.domElement);
+  }
+  
+  componentWillUnmount () {
+    this.props.onUnMount(this.domElement);
   }
 
   delete()
