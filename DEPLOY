@@ -1,0 +1,6 @@
+To deploy this in the shopping List app:
+npm run build
+
+Then copy the build/static directory to the static directory of the shopping list app.
+
+Open the build/index.html file, and copy the script tags to the end of the shoppingList.html file. They script tags must come after the recipeRoot tag. Also copy the css link to the header of shoppingList.html
