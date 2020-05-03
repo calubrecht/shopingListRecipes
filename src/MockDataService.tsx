@@ -41,9 +41,10 @@ export class MockDataService extends DataService
     this.recipeBook.delete(name);
   }
   
-  editRecipe(name : string, recipeData: RecipeData) : void
+  editRecipe(name : string, recipeData: RecipeData) : Promise<RecipeData[]>
   {
     this.recipeBook.set(name, recipeData);
+    return this.getRecipes();
   }
   
   addRecipe(name : string, recipeData: RecipeData) : Promise<RecipeData[]>

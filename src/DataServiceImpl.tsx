@@ -35,9 +35,14 @@ export class DataServiceImpl extends DataService
     // Does nothing, for now
   }
   
-  editRecipe(name : string, recipeData: RecipeData) : void
+  editRecipe(name : string, recipeData: RecipeData) : Promise<RecipeData[]>
   {
-    // Does nothing, for now
+    let req = {action: 'editRecipe', recipe:recipeData};
+    return fetch(
+      this.apiServer + '/service/',
+       {method: 'post', credentials:'include', body: JSON.stringify(req)})
+         .then(this.handleErrors)
+         .then(res => this.parseResponse(res));
   }
   
   addRecipe(name : string, recipeData: RecipeData) : Promise<RecipeData[]>
@@ -58,6 +63,10 @@ export class DataServiceImpl extends DataService
         if (!r.isLoggedIn)
         {
           throw Error("Please log in again.");
+        }
+        if (r.error)
+        {
+          throw Error(r.error);
         }
         return r.recipes;
       });

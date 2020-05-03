@@ -233,8 +233,13 @@ div.deleteWidget span.delete {color:red; right:5px}
 
 div.editBtn {float:right; position:relative; width: 24px;  margin-top:2px; height:30px; clear:right; padding:2px}
 
-li.keyIngredient {color:#0000d0; font-size:larger }
+li.keyIngredient {color:#0000d0; font-size:20px }
 li.commonIngredient {color:#888888 }
+
+input.keyIngredients {color:#0000d0; font-size:20px }
+input.commonIngredients {color:#888888 }
+input.keyIngredients::placeholder {color:#aaaadd; font-size:20px }
+input.commonIngredients::placeholder {color:#bbbbbb }
 
 textarea.description
 {

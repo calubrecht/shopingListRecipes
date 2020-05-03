@@ -86,7 +86,8 @@ class App extends Component<AppProps, AppState> {
         break;
       }
     }
-    this.service.editRecipe(recipeData.name, recipeData);
+    this.service.editRecipe(recipeData.name, recipeData)
+      .then(this.updateRecipes).catch(this.reportError);
     this.setState( { recipes: data});
   }
 
