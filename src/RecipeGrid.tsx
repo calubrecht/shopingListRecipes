@@ -125,5 +125,9 @@ export class RecipeGrid extends Component<GridProps, GridState> {
     this.grid.getMethod('refreshItems', [component]);
     this.grid.getMethod('layout');
   }
-
+  
+  refreshGrid()
+  {
+    this.grid.getMethod('layout');
+  }
 }

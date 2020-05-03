@@ -118,7 +118,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
 
   renderEditBtn()
   {
-    return <div className="editBtn"><img src={require('./images-/pencil.png')} alt="edit" onClick={this.doEdit} /></div>
+    return <div className="editBtn"><img src='images-/pencil.png' alt="edit" onClick={this.doEdit} /></div>
   }
   
   componentDidMount () {

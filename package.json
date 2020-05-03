@@ -1,37 +1,43 @@
 {
   "name": "recipes",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --env.BUILDENV=production",
+    "serveLive": "webpack-dev-server --env.BUILDENV=devLive --open",
+    "serve": "webpack-dev-server --env.BUILDENV=devMock --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/calubrecht/react-yslo-recipes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/calubrecht/react-yslo-recipes/issues"
+  },
+  "homepage": "https://github.com/calubrecht/react-yslo-recipes#readme",
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
+    "@babel/core": "^7.9.6",
+    "@types/node": "^13.13.4",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-muuri": "^0.3.0",
-    "react-scripts": "3.4.1",
-    "typescript": "^3.8.3"
+    "ts-loader": "^7.0.2",
+    "typescript": "^3.8.3",
+    "url-loader": "^4.1.0",
+    "webpack": "^4.43.0",
+    "webpack-dev-server": "^3.10.3"
   },
-  "scripts": {
-    "start": "REACT_APP_MOCK=1 react-scripts start",
-    "start-live": "REACT_APP_API_PORT=80 react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "webpack-cli": "^3.3.11"
   }
 }

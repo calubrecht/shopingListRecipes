@@ -5,7 +5,8 @@ import {RecipeData} from './DataService';
 import {MockDataService} from './MockDataService';
 import {DataServiceImpl} from './DataServiceImpl';
 import {RecipeGrid} from './RecipeGrid';
-import './css/kitchen.css';
+import * as APIConstants from './APIConstants.js';
+import './css/recipe.css';
 
 
 interface AppProps { }
@@ -24,7 +25,7 @@ class App extends Component<AppProps, AppState> {
     this.deleteRecipe = this.deleteRecipe.bind(this);
     this.editRecipe = this.editRecipe.bind(this);
     this.addRecipe = this.addRecipe.bind(this);
-    if (process.env.REACT_APP_MOCK)
+    if (APIConstants.consts.isMock)
     {
       this.service = new MockDataService();
     }

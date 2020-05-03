@@ -1,6 +1,6 @@
-
 import {DataService} from './DataService';
 import {RecipeData} from './DataService';
+import * as APIConstants from './APIConstants.js';
 
 export class DataServiceImpl extends DataService
 {
@@ -10,13 +10,13 @@ export class DataServiceImpl extends DataService
     super();
     this.handleErrors = this.handleErrors.bind(this);
     this.apiServer = '';
-    if (process.env.REACT_APP_API_SERVER)
+    if (APIConstants.consts.apiServer)
     {
-      this.apiServer = process.env.REACT_APP_API_SERVER;
+      this.apiServer = APIConstants.consts.apiServer;
     }
-    else if (process.env.REACT_APP_API_PORT)
+    else if (APIConstants.consts.apiPort)
     {
-      this.apiServer = window.location.protocol + '//' +  window.location.hostname + ':' + process.env.REACT_APP_API_PORT;
+      this.apiServer = window.location.protocol + '//' +  window.location.hostname + ':' + APIConstants.consts.apiPort;
     }
   }
 
