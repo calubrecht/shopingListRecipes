@@ -30,9 +30,14 @@ export class DataServiceImpl extends DataService
          .then(res => this.parseResponse(res));
   }
   
-  deleteRecipe(name : string) 
+  deleteRecipe(name : string) : Promise<RecipeData[]>
   {
-    // Does nothing, for now
+    let req = {action: 'deleteRecipe', recipe:name};
+    return fetch(
+      this.apiServer + '/service/',
+       {method: 'post', credentials:'include', body: JSON.stringify(req)})
+         .then(this.handleErrors)
+         .then(res => this.parseResponse(res));
   }
   
   editRecipe(name : string, recipeData: RecipeData) : Promise<RecipeData[]>

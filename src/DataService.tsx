@@ -10,7 +10,7 @@ export abstract class DataService
 {
   abstract getRecipes() : Promise<RecipeData[]>;
 
-  abstract deleteRecipe(name : string) : void;
+  abstract deleteRecipe(name : string)  : Promise<RecipeData[]>;
   
   abstract editRecipe(name : string, recipeData: RecipeData) : Promise<RecipeData[]>;
   abstract addRecipe(name : string, recipeData: RecipeData) : Promise<RecipeData[]>;

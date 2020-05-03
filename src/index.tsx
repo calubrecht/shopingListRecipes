@@ -70,7 +70,8 @@ class App extends Component<AppProps, AppState> {
     let recipes = this.state.recipes.filter(e => e.name !== recipeName);
     if (recipes.length !== this.state.recipes.length)
     {
-      this.service.deleteRecipe(recipeName);
+      this.service.deleteRecipe(recipeName)
+        .then(this.updateRecipes).catch(this.reportError);
       this.setState({recipes: recipes});
     }
   }
