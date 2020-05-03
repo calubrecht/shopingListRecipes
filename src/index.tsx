@@ -25,6 +25,7 @@ class App extends Component<AppProps, AppState> {
     this.deleteRecipe = this.deleteRecipe.bind(this);
     this.editRecipe = this.editRecipe.bind(this);
     this.addRecipe = this.addRecipe.bind(this);
+    this.fetchRecipes = this.fetchRecipes.bind(this);
     if (APIConstants.consts.isMock)
     {
       this.service = new MockDataService();
@@ -41,12 +42,12 @@ class App extends Component<AppProps, AppState> {
 
   componentDidMount()
   {
-    this.service.getRecipes().then(this.updateRecipes).catch(this.reportError);
+    this.fetchRecipes();
   }
 
   render() {
     let comp;
-    comp = <RecipeGrid recipes={this.state.recipes} deleteRecipeFromSvr={this.deleteRecipe} editRecipe={this.editRecipe} addRecipe={this.addRecipe}  />
+    comp = <RecipeGrid recipes={this.state.recipes} deleteRecipeFromSvr={this.deleteRecipe} editRecipe={this.editRecipe} addRecipe={this.addRecipe} fetchRecipes={this.fetchRecipes}  />
 
     return (
       <div>
@@ -102,7 +103,10 @@ class App extends Component<AppProps, AppState> {
     this.setState( { recipes: data});
   }
 
-
+  fetchRecipes()
+  {
+    this.service.getRecipes().then(this.updateRecipes).catch(this.reportError);
+  }
 }
 
 render(<App />, document.getElementById('recipeRoot'));

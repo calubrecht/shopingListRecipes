@@ -3,7 +3,7 @@ const path = require('path');
 var webpack = require('webpack');
 
 var isMock = 'false'
-var apiPort = '80';
+var apiPort = 'null';
 var apiServer='null';
 var mode='production';
 
@@ -15,13 +15,12 @@ var setupAPI = function(env) {
       break;
     case 'devLive':
       isMock = 'false';
-      apiPort = 80;
       mode:'development;'
     case 'production':
     default:
       isMock = 'false';
       mode:'production'
-      apiPort = 80;
+      apiPort = 'null';
       break;
   }
 }

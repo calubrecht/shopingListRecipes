@@ -12,6 +12,7 @@ interface GridProps {
   deleteRecipeFromSvr(recipeName : string) : void
   editRecipe(recipe: RecipeData) : void
   addRecipe(recipe: RecipeData) : void
+  fetchRecipes() : void
 }
 
 interface GridState {
@@ -50,8 +51,6 @@ export class RecipeGrid extends Component<GridProps, GridState> {
         }
       },
     });
-
-    this.grid.getEvent('dragEnd');
   }
 
   componentWillUnmount () {
@@ -86,6 +85,7 @@ export class RecipeGrid extends Component<GridProps, GridState> {
         newRecipe = {false}
         onDelete={ this.props.deleteRecipeFromSvr} />);
   }
+  
   renderNewCard()
   {
      return (
@@ -133,5 +133,6 @@ export class RecipeGrid extends Component<GridProps, GridState> {
   {
     this.grid.getMethod('refreshItems');
     this.grid.getMethod('layout');
+    this.props.fetchRecipes();
   }
 }
