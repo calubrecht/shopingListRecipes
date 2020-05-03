@@ -40,5 +40,10 @@ export class MockDataService extends DataService
   {
     this.recipeBook.delete(name);
   }
+  
+  editRecipe(name : string, recipeData: RecipeData) : void
+  {
+    this.recipeBook.set(name, recipeData);
+  }
 
 }

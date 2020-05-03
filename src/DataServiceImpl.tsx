@@ -34,6 +34,11 @@ export class DataServiceImpl extends DataService
   {
     // Does nothing, for now
   }
+  
+  editRecipe(name : string, recipeData: RecipeData) : void
+  {
+    // Does nothing, for now
+  }
 
   parseResponse(response : Response)
   {

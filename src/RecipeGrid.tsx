@@ -9,7 +9,7 @@ import * as utils from './utils';
 interface GridProps {
   recipes: RecipeData[],
   deleteRecipeFromSvr(recipeName : string) : void
-  editRecipe(recipe: string) : void
+  editRecipe(recipe: RecipeData) : void
 }
 export class RecipeGrid extends Component<GridProps> {
   grid : any;

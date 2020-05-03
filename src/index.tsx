@@ -12,7 +12,6 @@ interface AppProps { }
 interface AppState {
   recipes: RecipeData[],
   error: string,
-  editRecipe? : string
 }
 
 class App extends Component<AppProps, AppState> {
@@ -45,14 +44,7 @@ class App extends Component<AppProps, AppState> {
 
   render() {
     let comp;
-    if (this.state.editRecipe)
-    {
-      comp = <div>Ediitng {this.state.editRecipe}</div>
-    }
-    else
-    {
-      comp = <RecipeGrid recipes={this.state.recipes} deleteRecipeFromSvr={this.deleteRecipe} editRecipe={this.editRecipe}  />
-    }
+    comp = <RecipeGrid recipes={this.state.recipes} deleteRecipeFromSvr={this.deleteRecipe} editRecipe={this.editRecipe}  />
 
     return (
       <div>
@@ -82,9 +74,19 @@ class App extends Component<AppProps, AppState> {
     }
   }
 
-  editRecipe(recipeName : string)
+  editRecipe(recipeData : RecipeData)
   {
-    this.setState({editRecipe: recipeName});
+    let data = [ ...this.state.recipes];
+    for (let i = 0; i < data.length; i++)
+    {
+      if (data[i].name === recipeData.name)
+      {
+        data[i] = recipeData;
+        break;
+      }
+    }
+    this.service.editRecipe(recipeData.name, recipeData);
+    this.setState( { recipes: data});
   }
 
 }

@@ -9,7 +9,7 @@ export interface RecipeProps
   onUnMount(card: any) : void
   onDelete(recipe: string) : void
   onResize(card: any) : void
-  editRecipe(recipe: string) : void
+  editRecipe(recipe: RecipeData) : void
 }
 
 export interface RecipeState
@@ -21,6 +21,8 @@ export interface RecipeState
 export class RecipeCard extends React.Component<RecipeProps, RecipeState>
 {
   domElement : any;
+  elementToFocus : string = '';
+  needResize = false;
   textAreaElement? : HTMLTextAreaElement | null;
 
   constructor (props : RecipeProps)
@@ -79,15 +81,17 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
           <div className="item-content">
           <div className="recipeCard editing">
           <div className="cardHeader">
-          <span className="cardTitle"> {this.props.recipeData.name}</span>        </div>
+          <span className="cardTitle"> {this.state.recipeData.name}</span>        </div>
           <div className="cardBody">
             <textarea className="description" name="text" value={this.state.recipeData.text} ref={el => this.textAreaElement = el} onChange={this.handleChangeField} />
             <ul>
-               {this.props.recipeData.keyIngredients && this.props.recipeData.keyIngredients.map( ( ing : string) => <li key={"key" + (keyI).toString()} className="keyIngredient"><input type="text" className="keyIngredients" value={ing} onChange={this.handleChangeList} name={"key" + (keyI++).toString()} /></li> )}
+               {this.state.recipeData.keyIngredients && this.state.recipeData.keyIngredients.map( ( ing : string) => <li key={"key" + (keyI).toString()} className="keyIngredient"><input type="text" className="keyIngredients" value={ing} onChange={this.handleChangeList} name={"key" + (keyI++).toString()} /></li> )}
                <li key={"key" + (keyI).toString()} className="keyIngredient"><input type="text" className="keyIngredients" value="" onChange={this.handleChangeList} name={"key" + (keyI++).toString()} /></li>
-               {this.props.recipeData.commonIngredients && this.props.recipeData.commonIngredients.map( ( ing : string) => <li key={"common" + (commonI).toString()} className="commonIngredient"><input type="text" className="commonIngredients" value={ing}  name={"common" + (commonI++).toString()} /></li> )}
+               {this.state.recipeData.commonIngredients && this.state.recipeData.commonIngredients.map( ( ing : string) => <li key={"common" + (commonI).toString()} className="commonIngredient"><input type="text" className="commonIngredients" value={ing} onChange={this.handleChangeList} name={"common" + (commonI++).toString()} /></li> )}
+               <li key={"common" + (commonI).toString()} className="commonIngredient"><input type="text" className="commonIngredients" value="" onChange={this.handleChangeList} name={"common" + (commonI++).toString()} /></li>
             </ul>
             <div>
+               <button type="button" onClick={this.cancelEdit}>Cancel</button><button type="button" onClick={this.confirmEdit}>Save</button>
             </div>
 
           </div>
@@ -109,7 +113,19 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
   componentDidUpdate()
   {
     this.setEditDesciptionHeight();
-    console.log('didUpdate');
+    if (this.elementToFocus)
+    {
+      let className = this.elementToFocus.split(':')[0];
+      let count = this.elementToFocus.split(':')[1];
+      let el = this.domElement.getElementsByClassName(className)[count];
+      el.focus();
+      this.elementToFocus = '';
+    }
+    if (this.needResize)
+    {
+      this.needResize = false;
+      this.props.onResize(this.domElement);
+    }
   }
 
   setEditDesciptionHeight()
@@ -131,19 +147,22 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
   }
 
   doEdit() {
+    this.elementToFocus = "description:0";
     this.setState( {
       editing : true,
-      recipeData : this.props.recipeData});
+      recipeData : Object.assign({},this.props.recipeData)});
   }
 
   cancelEdit()
   {
+    this.needResize = true;
     this.setState( { editing : false } );
   }
 
   confirmEdit()
   {
-    // Send Edit to backend
+    this.needResize = true;
+    this.props.editRecipe(this.state.recipeData);
     this.setState ( {editing : false});
   }
 
@@ -172,7 +191,16 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
       ingredients = data.commonIngredients as string[];
       index = parseInt(itemName.substring(6));
     }
-    if (value.trim().length == 0)
+    if (ingredients)
+    {
+      ingredients = [...ingredients];
+    }
+    else
+    {
+      ingredients = [];
+    }
+
+    if (value.trim().length === 0)
     {
       if (index >= ingredients.length)
       {
@@ -186,6 +214,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
       if (index >= ingredients.length)
       {
         ingredients.push(value);
+        this.elementToFocus = event.target.className + ":" + index.toString();
       }
       else
       {
