@@ -212,6 +212,7 @@ span.dayLabel
 }
 
 div.recipeCard { width:374px; }
+div.recipeCard.editing {z-index:10}
 
 .cardHeader { display:flex; justify-content:flex-end}
 
@@ -234,6 +235,15 @@ div.editBtn {float:right; position:relative; width: 24px;  margin-top:2px; heigh
 
 li.keyIngredient {color:#0000d0; font-size:larger }
 li.commonIngredient {color:#888888 }
+
+textarea.description
+{
+  width:210px;
+  border:none;
+  resize:none;
+  font-family:"Times New Roman";
+  font-size:16px;
+}
 
 .grid { position: relative; }
 .item {

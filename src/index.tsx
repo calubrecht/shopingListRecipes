@@ -1,35 +1,29 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import {Hello} from './Hello';
-import {RecipeCard} from './RecipeCard';
 import {DataService} from './DataService';
 import {RecipeData} from './DataService';
 import {MockDataService} from './MockDataService';
 import {DataServiceImpl} from './DataServiceImpl';
-import MuuriGrid from 'react-muuri';
-import * as utils from './utils';
+import {RecipeGrid} from './RecipeGrid';
 import './css/kitchen.css';
 
 
 interface AppProps { }
 interface AppState {
-  name: string,
   recipes: RecipeData[],
-  error: string
+  error: string,
+  editRecipe? : string
 }
 
 class App extends Component<AppProps, AppState> {
   service : DataService;
-  grid : any;
-  gridElement : any;
 
   constructor(props : AppProps) {
     super(props);
     this.updateRecipes = this.updateRecipes.bind(this);
     this.reportError = this.reportError.bind(this);
     this.deleteRecipe = this.deleteRecipe.bind(this);
-    this.addToGrid = this.addToGrid.bind(this);
-    this.removeFromGrid = this.removeFromGrid.bind(this);
+    this.editRecipe = this.editRecipe.bind(this);
     if (process.env.REACT_APP_MOCK)
     {
       this.service = new MockDataService();
@@ -39,57 +33,33 @@ class App extends Component<AppProps, AppState> {
       this.service = new DataServiceImpl();
     }
     this.state = {
-      name: 'React',
       recipes: [],
       error: ''
     };
   }
 
-  componentDidMount () {
-    this.grid = new MuuriGrid({
-      node: this.gridElement,
-      defaultOptions: {
-        dragEnabled: true,
-        dragStartPredicate: function (item : any, e : any, options:any)
-        {
-          if (e.target.className === 'cardTitle')
-          {
-            return utils.defaultStartPredicate(item, e, options);
-          }
-          return false;
-        }
-      },
-    });
-
-    this.grid.getEvent('dragEnd');
+  componentDidMount()
+  {
     this.service.getRecipes().then(this.updateRecipes).catch(this.reportError);
   }
 
-  componentWillUnmount () {
-    this.grid.getMethod('destroy');
-  }
-
   render() {
+    let comp;
+    if (this.state.editRecipe)
+    {
+      comp = <div>Ediitng {this.state.editRecipe}</div>
+    }
+    else
+    {
+      comp = <RecipeGrid recipes={this.state.recipes} deleteRecipeFromSvr={this.deleteRecipe} editRecipe={this.editRecipe}  />
+    }
+
     return (
       <div>
-        <Hello name={this.state.name} />
-        <div ref={gridElement => this.gridElement = gridElement}>
-        {this.state.recipes.map( (recipeData : RecipeData) => this.renderCard(recipeData))}
-        </div>
-        <div>{this.state.error}</div>
+      {comp}
+      <div>{this.state.error}</div>
       </div>
     );
-  }
-
-  renderCard(recipe : RecipeData)
-  {
-     return (
-      <RecipeCard
-        key={recipe.name}
-        recipeData={recipe}
-        onMount={ this.addToGrid }
-        onUnMount={ this.removeFromGrid }
-        onDelete={ this.deleteRecipe} />);
   }
 
   updateRecipes(recipes: RecipeData[])
@@ -112,15 +82,11 @@ class App extends Component<AppProps, AppState> {
     }
   }
 
-  addToGrid(component : any)
+  editRecipe(recipeName : string)
   {
-    this.grid.getMethod('add', [component], {isActive:true});
+    this.setState({editRecipe: recipeName});
   }
-  
-  removeFromGrid(component : any)
-  {
-    this.grid.getMethod('remove', [component], {removeElements:false});
-  }
+
 }
 
 render(<App />, document.getElementById('recipeRoot'));
