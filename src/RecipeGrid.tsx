@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Hello} from './Hello';
 import {RecipeCard} from './RecipeCard';
 import MuuriGrid from 'react-muuri';
 import {RecipeData} from './DataService';

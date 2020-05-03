@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {KeyboardEvent} from 'react';
 import {RecipeData} from './DataService';
 import {DeleteWidget} from './DeleteWidget';
 
@@ -43,6 +43,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
     this.confirmEdit = this.confirmEdit.bind(this);
     this.handleChangeField = this.handleChangeField.bind(this);
     this.handleChangeList = this.handleChangeList.bind(this);
+    this.onKeydown = this.onKeydown.bind(this);
   }
 
   render()
@@ -93,7 +94,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
     return(
           <div className="item" ref={el => this.domElement = el}>
           <div className="item-content">
-          <div className="recipeCard editing">
+          <div className="recipeCard editing" onKeyDown={this.onKeydown}>
           <div className="cardHeader">
 
           <span className="cardTitle"> {title}</span>        </div>
@@ -182,6 +183,16 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
       this.props.cancelNew();
     }
     this.setState( { editing : false } );
+  }
+
+  onKeydown(evt: KeyboardEvent)
+  {
+    if (evt.key === "Escape")
+    {
+      evt.stopPropagation();
+      evt.preventDefault();
+      this.cancelEdit();
+    }
   }
 
   confirmEdit()
