@@ -3,6 +3,7 @@ import {Hello} from './Hello';
 import {RecipeCard} from './RecipeCard';
 import MuuriGrid from 'react-muuri';
 import {RecipeData} from './DataService';
+import * as APIConstants from './APIConstants.js';
 import * as utils from './utils';
 
 
@@ -29,7 +30,9 @@ export class RecipeGrid extends Component<GridProps, GridState> {
     this.cancelNew = this.cancelNew.bind(this);
     this.addRecipe = this.addRecipe.bind(this);
     this.state = {addingRecipe: false};
-
+    console.log('readyregister');
+    APIConstants.EXT_CALLBACK_REGISTRY['refreshRecipeGrid'] =  this.refreshGrid.bind(this);
+    console.log('didregister');
   }
   
   componentDidMount () {
@@ -128,6 +131,7 @@ export class RecipeGrid extends Component<GridProps, GridState> {
   
   refreshGrid()
   {
+    this.grid.getMethod('refreshItems');
     this.grid.getMethod('layout');
   }
 }
