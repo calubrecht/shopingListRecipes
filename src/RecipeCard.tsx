@@ -35,6 +35,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
     if (props.newRecipe)
     {
       editing = true;
+      this.elementToFocus = "name:0";
     }
     this.state = { editing: editing, recipeData: props.recipeData};
     this.doEdit = this.doEdit.bind(this);
@@ -84,10 +85,10 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
   {
     let keyI = 0;
     let commonI = 0;
-    let title = <span>this.state.recipeData.name </span>;
+    let title = <span>{this.state.recipeData.name}</span>;
     if (this.props.newRecipe)
     {
-      title = <input type="text" className="name" name="name" value={this.state.recipeData.name}  onChange={this.handleChangeField} placeholder="Enter a new recipe name." />
+      title = <input type="text" className="name" name="name" value={this.state.recipeData.name}  onChange={this.handleChangeField} placeholder="Enter a new recipe name." />;
     }
     return(
           <div className="item" ref={el => this.domElement = el}>
@@ -122,11 +123,11 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
   
   componentDidMount () {
     this.props.onMount(this.domElement);
+    this.focusIfRequired();
   }
 
-  componentDidUpdate()
+  focusIfRequired()
   {
-    this.setEditDesciptionHeight();
     if (this.elementToFocus)
     {
       let className = this.elementToFocus.split(':')[0];
@@ -135,6 +136,12 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
       el.focus();
       this.elementToFocus = '';
     }
+  }
+
+  componentDidUpdate()
+  {
+    this.setEditDesciptionHeight();
+    this.focusIfRequired();
     if (this.needResize)
     {
       this.needResize = false;

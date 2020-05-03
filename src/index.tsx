@@ -94,7 +94,8 @@ class App extends Component<AppProps, AppState> {
   {
     let data = [ ...this.state.recipes];
     data.push(recipeData);
-    this.service.addRecipe(recipeData.name, recipeData);
+    this.service.addRecipe(recipeData.name, recipeData)
+      .then(this.updateRecipes).catch(this.reportError);
     this.setState( { recipes: data});
   }
 
