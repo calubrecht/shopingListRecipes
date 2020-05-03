@@ -60,7 +60,7 @@ export class RecipeGrid extends Component<GridProps, GridState> {
   render() {
     return (
       <div>
-        <Hello name="the Recipes" />
+        <h1>Your Recipes</h1>
         <div ref={gridElement => this.gridElement = gridElement}>
         {this.props.recipes.map( (recipeData : RecipeData) => this.renderCard(recipeData))}
         {this.state.addingRecipe && 
