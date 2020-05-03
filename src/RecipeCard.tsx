@@ -10,6 +10,9 @@ export interface RecipeProps
   onDelete(recipe: string) : void
   onResize(card: any) : void
   editRecipe(recipe: RecipeData) : void
+  addRecipe? (recipe: RecipeData) : void
+  cancelNew? () : void
+  newRecipe : boolean
 }
 
 export interface RecipeState
@@ -28,7 +31,12 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
   constructor (props : RecipeProps)
   {
     super(props);
-    this.state = { editing: false, recipeData: props.recipeData};
+    let editing = false;
+    if (props.newRecipe)
+    {
+      editing = true;
+    }
+    this.state = { editing: editing, recipeData: props.recipeData};
     this.doEdit = this.doEdit.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
     this.confirmEdit = this.confirmEdit.bind(this);
@@ -76,19 +84,25 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
   {
     let keyI = 0;
     let commonI = 0;
+    let title = <span>this.state.recipeData.name </span>;
+    if (this.props.newRecipe)
+    {
+      title = <input type="text" className="name" name="name" value={this.state.recipeData.name}  onChange={this.handleChangeField} placeholder="Enter a new recipe name." />
+    }
     return(
           <div className="item" ref={el => this.domElement = el}>
           <div className="item-content">
           <div className="recipeCard editing">
           <div className="cardHeader">
-          <span className="cardTitle"> {this.state.recipeData.name}</span>        </div>
+
+          <span className="cardTitle"> {title}</span>        </div>
           <div className="cardBody">
-            <textarea className="description" name="text" value={this.state.recipeData.text} ref={el => this.textAreaElement = el} onChange={this.handleChangeField} />
+            <textarea className="description" name="text" value={this.state.recipeData.text} ref={el => this.textAreaElement = el} onChange={this.handleChangeField} placeholder="Enter a recipe description." />
             <ul>
                {this.state.recipeData.keyIngredients && this.state.recipeData.keyIngredients.map( ( ing : string) => <li key={"key" + (keyI).toString()} className="keyIngredient"><input type="text" className="keyIngredients" value={ing} onChange={this.handleChangeList} name={"key" + (keyI++).toString()} /></li> )}
-               <li key={"key" + (keyI).toString()} className="keyIngredient"><input type="text" className="keyIngredients" value="" onChange={this.handleChangeList} name={"key" + (keyI++).toString()} /></li>
+               <li key={"key" + (keyI).toString()} className="keyIngredient"><input type="text" className="keyIngredients" value="" onChange={this.handleChangeList} name={"key" + (keyI++).toString()} placeholder = "New ingredient" /></li>
                {this.state.recipeData.commonIngredients && this.state.recipeData.commonIngredients.map( ( ing : string) => <li key={"common" + (commonI).toString()} className="commonIngredient"><input type="text" className="commonIngredients" value={ing} onChange={this.handleChangeList} name={"common" + (commonI++).toString()} /></li> )}
-               <li key={"common" + (commonI).toString()} className="commonIngredient"><input type="text" className="commonIngredients" value="" onChange={this.handleChangeList} name={"common" + (commonI++).toString()} /></li>
+               <li key={"common" + (commonI).toString()} className="commonIngredient"><input type="text" className="commonIngredients" value="" onChange={this.handleChangeList} name={"common" + (commonI++).toString()} placeholder = "New ingredient" /></li>
             </ul>
             <div>
                <button type="button" onClick={this.cancelEdit}>Cancel</button><button type="button" onClick={this.confirmEdit}>Save</button>
@@ -156,11 +170,26 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
   cancelEdit()
   {
     this.needResize = true;
+    if (this.props.newRecipe && this.props.cancelNew)
+    {
+      this.props.cancelNew();
+    }
     this.setState( { editing : false } );
   }
 
   confirmEdit()
   {
+    if (this.props.newRecipe && this.props.addRecipe)
+    {
+      if (!this.state.recipeData.name)
+      {
+        return;
+      }
+      this.needResize = true;
+      this.props.addRecipe(this.state.recipeData);
+      this.setState ( {editing : false});
+      return;
+    }
     this.needResize = true;
     this.props.editRecipe(this.state.recipeData);
     this.setState ( {editing : false});

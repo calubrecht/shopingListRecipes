@@ -217,7 +217,7 @@ div.recipeCard.editing {z-index:10}
 .cardHeader { display:flex; justify-content:flex-end}
 
 .cardTitle {background :white;
-border-width: 1px 1px 0px 1px; border-style: solid;
+border-width: 1px 1px 0px 1px; border-style: solid; min-width: 60px;
 padding: 3px 8px 0px 3px; position:relative; bottom:-2px;
 margin-right:2px;
 text-align:right; border-radius:0px 20px 0px 0px; z-index:5;}

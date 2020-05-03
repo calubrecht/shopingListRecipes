@@ -23,6 +23,7 @@ class App extends Component<AppProps, AppState> {
     this.reportError = this.reportError.bind(this);
     this.deleteRecipe = this.deleteRecipe.bind(this);
     this.editRecipe = this.editRecipe.bind(this);
+    this.addRecipe = this.addRecipe.bind(this);
     if (process.env.REACT_APP_MOCK)
     {
       this.service = new MockDataService();
@@ -44,7 +45,7 @@ class App extends Component<AppProps, AppState> {
 
   render() {
     let comp;
-    comp = <RecipeGrid recipes={this.state.recipes} deleteRecipeFromSvr={this.deleteRecipe} editRecipe={this.editRecipe}  />
+    comp = <RecipeGrid recipes={this.state.recipes} deleteRecipeFromSvr={this.deleteRecipe} editRecipe={this.editRecipe} addRecipe={this.addRecipe}  />
 
     return (
       <div>
@@ -88,6 +89,15 @@ class App extends Component<AppProps, AppState> {
     this.service.editRecipe(recipeData.name, recipeData);
     this.setState( { recipes: data});
   }
+
+  addRecipe(recipeData : RecipeData)
+  {
+    let data = [ ...this.state.recipes];
+    data.push(recipeData);
+    this.service.addRecipe(recipeData.name, recipeData);
+    this.setState( { recipes: data});
+  }
+
 
 }
 

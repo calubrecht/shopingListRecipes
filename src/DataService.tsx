@@ -13,4 +13,5 @@ export abstract class DataService
   abstract deleteRecipe(name : string) : void;
   
   abstract editRecipe(name : string, recipeData: RecipeData) : void;
+  abstract addRecipe(name : string, recipeData: RecipeData) : void;
 }
