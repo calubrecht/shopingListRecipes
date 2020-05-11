@@ -110,3 +110,6 @@ class App extends Component<AppProps, AppState> {
 }
 
 render(<App />, document.getElementById('recipeRoot'));
+
+// APIConstants.EXT_CALLBACK_REGISTRY['setQueryMode'](true);
+// APIConstants.EXT_CALLBACK_REGISTRY['setSelectCB']( (e: string) => console.log("Select : " + e));

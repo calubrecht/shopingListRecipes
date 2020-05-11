@@ -5,12 +5,15 @@ import {DeleteWidget} from './DeleteWidget';
 export interface RecipeProps
 {
   recipeData : RecipeData
+  queryMode : boolean
+  selected : boolean
   onMount(card: any) : void
   onUnMount(card: any) : void
   onDelete(recipe: string) : void
   onResize(card: any) : void
   editRecipe(recipe: RecipeData) : void
   addRecipe? (recipe: RecipeData) : void
+  selectRecipe? (recipe : string) : void
   cancelNew? () : void
   newRecipe : boolean
 }
@@ -39,6 +42,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
     }
     this.state = { editing: editing, recipeData: props.recipeData};
     this.doEdit = this.doEdit.bind(this);
+    this.doSelect = this.doSelect.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
     this.confirmEdit = this.confirmEdit.bind(this);
     this.handleChangeField = this.handleChangeField.bind(this);
@@ -67,8 +71,8 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
           <div className="cardHeader">
           <span className="cardTitle"> {this.props.recipeData.name}</span>        </div>
           <div className="cardBody">
-            <DeleteWidget name={this.props.recipeData.name} onDelete={() => this.delete()} />
-            {this.renderEditBtn()}
+            { this.props.queryMode || <DeleteWidget name={this.props.recipeData.name} onDelete={() => this.delete()} /> }
+            {this.props.queryMode ? this.renderSelectBtn() : this.renderEditBtn()}
             {this.props.recipeData.text}
             <ul>
                {this.props.recipeData.keyIngredients && this.props.recipeData.keyIngredients.map( ( ing : string) => <li  key={ing} className="keyIngredient">{ing}</li> )}
@@ -119,9 +123,14 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
 
   renderEditBtn()
   {
-    return <div className="editBtn"><img src='images-/pencil.png' alt="edit" onClick={this.doEdit} /></div>
+    return <div className="editBtn"><img src='sl_icons/pencil.png' alt="edit" onClick={this.doEdit} /></div>
   }
   
+  renderSelectBtn()
+  {
+    return <div className="selectBtn"><img src={'sl_icons/' + (this.props.selected ? "check.png" : "checkOff.png") }  alt="edit" onClick={this.doSelect} /></div>
+  }
+
   componentDidMount () {
     this.props.onMount(this.domElement);
     this.focusIfRequired();
@@ -173,6 +182,12 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
     this.setState( {
       editing : true,
       recipeData : Object.assign({},this.props.recipeData)});
+  }
+  doSelect() {
+    if (this.props.selectRecipe)
+    {
+      this.props.selectRecipe(this.props.recipeData.name);
+    }
   }
 
   cancelEdit()

@@ -16,6 +16,9 @@ interface GridProps {
 
 interface GridState {
   addingRecipe: boolean
+  queryMode: boolean
+  selectedItems: { [key:string]: boolean;}
+  selectCB?(cb : string) : void
 }
 export class RecipeGrid extends Component<GridProps, GridState> {
   grid : any;
@@ -29,10 +32,11 @@ export class RecipeGrid extends Component<GridProps, GridState> {
     this.onResize = this.onResize.bind(this);
     this.cancelNew = this.cancelNew.bind(this);
     this.addRecipe = this.addRecipe.bind(this);
-    this.state = {addingRecipe: false};
-    console.log('readyregister');
+    this.selectRecipe = this.selectRecipe.bind(this);
+    this.state = {addingRecipe: false, queryMode: false, selectedItems:{}};
     APIConstants.EXT_CALLBACK_REGISTRY['refreshRecipeGrid'] =  this.refreshGrid.bind(this);
-    console.log('didregister');
+    APIConstants.EXT_CALLBACK_REGISTRY['setQueryMode'] =  this.setQueryMode.bind(this);
+    APIConstants.EXT_CALLBACK_REGISTRY['setSelectCB'] =(cb : any) => this.setState({selectCB: cb});
   }
   
   componentDidMount () {
@@ -65,7 +69,7 @@ export class RecipeGrid extends Component<GridProps, GridState> {
         {this.state.addingRecipe && 
             this.renderNewCard()}
         </div>
-        {this.state.addingRecipe ||
+        {this.state.addingRecipe || this.state.queryMode ||
             <button onClick={e => this.setState({addingRecipe:true})}>Add Recipe</button>}
       </div>
     );
@@ -81,7 +85,10 @@ export class RecipeGrid extends Component<GridProps, GridState> {
         onUnMount={ this.removeFromGrid }
         editRecipe={ this.props.editRecipe }
         onResize={ this.onResize }
+        queryMode={ this.state.queryMode }
         newRecipe = {false}
+        selected = {this.state.selectedItems[recipe.name]}
+        selectRecipe = { this.selectRecipe }
         onDelete={ this.props.deleteRecipeFromSvr} />);
   }
   
@@ -95,8 +102,10 @@ export class RecipeGrid extends Component<GridProps, GridState> {
         onUnMount={ this.removeFromGrid }
         editRecipe={ this.props.editRecipe }
         addRecipe={ this.addRecipe }
+        queryMode={ false}
         onResize={ this.onResize }
         newRecipe = {true}
+        selected = {false}
         cancelNew = {this.cancelNew}
         onDelete={ this.props.deleteRecipeFromSvr} />);
   }
@@ -110,6 +119,17 @@ export class RecipeGrid extends Component<GridProps, GridState> {
   {
     this.setState( { addingRecipe: false});
     this.props.addRecipe(recipe);
+  }
+
+  selectRecipe(recipeName : string)
+  {
+    let oldState = this.state.selectedItems;
+    oldState[recipeName] = true;
+    this.setState({ selectedItems : oldState});
+    if (this.state.selectCB)
+    {
+      this.state.selectCB(recipeName);
+    }
   }
 
   addToGrid(component : any)
@@ -133,5 +153,10 @@ export class RecipeGrid extends Component<GridProps, GridState> {
     this.grid.getMethod('refreshItems');
     this.grid.getMethod('layout');
     this.props.fetchRecipes();
+  }
+  
+  setQueryMode(queryMode: boolean)
+  {
+    this.setState( {queryMode: queryMode, selectedItems: {} } );
   }
 }

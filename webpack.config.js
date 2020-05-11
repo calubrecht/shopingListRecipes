@@ -36,7 +36,8 @@ module.exports = env => {
   devServer: {
     contentBase: './public',
     host: '0.0.0.0',
-    port: 3000
+    port: 3000,
+    disableHostCheck: true
   },
   entry: path.join(__dirname, 'src', 'index.tsx'),
   // And to place the output in the `build` directory
