@@ -59,7 +59,7 @@ class App extends Component<AppProps, AppState> {
 
   updateRecipes(recipes: RecipeData[])
   {
-    this.setState({recipes: recipes});
+    this.setState({recipes: recipes, error: ''});
   }
 
   reportError(error : Error)
