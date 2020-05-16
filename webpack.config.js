@@ -32,7 +32,7 @@ module.exports = env => {
   // Tell webpack to begin building its 
   // dependency graph from this file.
   mode: mode,
-  devtool: 'inline-source-map',
+  devtool: env.BUILDENV === 'production' ? '' : 'inline-source-map',
   devServer: {
     contentBase: './public',
     host: '0.0.0.0',

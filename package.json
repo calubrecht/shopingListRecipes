@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --env.BUILDENV=production",
+    "build": "webpack --env.BUILDENV=production --display-modules",
     "serveLive": "webpack-dev-server --env.BUILDENV=devLive --open",
     "serve": "webpack-dev-server --env.BUILDENV=devMock --open"
   },
