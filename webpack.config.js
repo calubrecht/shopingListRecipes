@@ -75,6 +75,10 @@ module.exports = env => {
   ],
   resolve: {
     extensions: [ '.tsx', '.ts', '.js'],
+  },
+  externals: {
+    'react': 'React',
+    'react-dom' : 'ReactDOM'
   }
  };
 }
