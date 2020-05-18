@@ -5,22 +5,43 @@ import {RecipeData} from './DataService';
 export class MockDataService extends DataService
 {
   recipeBook : Map<string, RecipeData>;
+  nameForID : Map<string, string>;
+  idCount = 0;
   constructor()
   {
     super();
     this.recipeBook = 
       new Map([
-          ['Good Recipe',{name:'Good Recipe', text:'This is a recipe'}],
-          ['Better Recipe',{name:'Better Recipe', text:'This is a better recipe. It contains all the good things you love to eat and is full of sugar.', keyIngredients:['Sugar', 'Honey', 'Peanut Butter Cups']}],
+          ['Good Recipe',{name:'Good Recipe', text:'This is a recipe', id:this.getNextID()}],
+          ['Better Recipe',{name:'Better Recipe', text:'This is a better recipe. It contains all the good things you love to eat and is full of sugar.', keyIngredients:['Sugar', 'Honey', 'Peanut Butter Cups'], id:this.getNextID()}],
           ['Awesomesauce Recipe',{name:'Awesomesauce Recipe', text:'This is the best recipe of all',
              keyIngredients:['Bacon', 'More Bacon'],
-             commonIngredients:['Flour', 'Onions', 'Cheesy bits']}],
+             commonIngredients:['Flour', 'Onions', 'Cheesy bits'],
+             id:this.getNextID()}],
           ['Bad Recipe',{name:'Bad Recipe', text:'This recipe is made of fail and sadness',
              keyIngredients:['Fail', 'Sadness'],
-             commonIngredients:['Flour', 'Water', 'Spinach']}],
+             commonIngredients:['Flour', 'Water', 'Spinach'],
+             id:this.getNextID()}],
           ['Jerked Jerky',{name:'Jerked Jerky', text:'Jerk it good', keyIngredients:['Jerky'],
-             commonIngredients:['Sauce', 'Onions']}]
+             commonIngredients:['Sauce', 'Onions'],
+             id:this.getNextID()}]
           ]);
+    this.nameForID = new Map();
+    for (let value of Array.from(this.recipeBook.values()))
+    {
+       this.nameForID.set(value.id, value.name);
+    }
+  }
+
+  getNextID() : string
+  {
+    return "" + this.idCount++; 
+  }
+
+
+  getNameForIDNum(id: string) : string
+  {
+    return this.nameForID.has(id) ? this.nameForID.get(id)! : '';
   }
 
   getRecipes() : Promise<RecipeData[]>
@@ -50,7 +71,9 @@ export class MockDataService extends DataService
   
   addRecipe(name : string, recipeData: RecipeData) : Promise<RecipeData[]>
   {
+    recipeData.id = this.getNextID();
     this.recipeBook.set(name, recipeData);
+    this.nameForID.set(recipeData.id, name);
     return this.getRecipes();
   }
 

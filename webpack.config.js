@@ -11,15 +11,16 @@ var setupAPI = function(env) {
   switch (env.BUILDENV) {
     case 'devMock':
       isMock = 'true';
-      mode:'development;'
+      mode = 'development';
       break;
     case 'devLive':
       isMock = 'false';
-      mode:'development;'
+      mode ='development';
+      apiPort = '"80"';
     case 'production':
     default:
       isMock = 'false';
-      mode:'production'
+      mode = 'production'
       apiPort = 'null';
       break;
   }
@@ -31,7 +32,7 @@ module.exports = env => {
   return {
   // Tell webpack to begin building its 
   // dependency graph from this file.
-  mode: mode,
+  mode: env.BUILDENV === 'production' ? 'production': 'development',
   devtool: env.BUILDENV === 'production' ? '' : 'inline-source-map',
   devServer: {
     contentBase: './public',
@@ -67,8 +68,8 @@ module.exports = env => {
   plugins: [
     new webpack.DefinePlugin(
       {
-        REACT_APP_MOCK: isMock,
-        REACT_APP_PORT: apiPort,
+        REACT_APP_MOCK: env.BUILDENV === 'devMock' ? 'true' : 'false',
+        REACT_APP_PORT: env.BUILDENV === 'devLive' ? '"80"' : 'null',
         REACT_APP_API_SERVER: apiServer
       }
     )

@@ -12,6 +12,7 @@ interface GridProps {
   editRecipe(recipe: RecipeData) : void
   addRecipe(recipe: RecipeData) : void
   fetchRecipes() : void
+  getNameForID(id: string): string
 }
 
 interface GridState {
@@ -33,6 +34,7 @@ export class RecipeGrid extends Component<GridProps, GridState> {
     this.cancelNew = this.cancelNew.bind(this);
     this.addRecipe = this.addRecipe.bind(this);
     this.selectRecipe = this.selectRecipe.bind(this);
+    this.storeSortOrder = this.storeSortOrder.bind(this);
     this.state = {addingRecipe: false, queryMode: false, selectedItems:{}};
     APIConstants.EXT_CALLBACK_REGISTRY['refreshRecipeGrid'] =  this.refreshGrid.bind(this);
     APIConstants.EXT_CALLBACK_REGISTRY['setQueryMode'] =  this.setQueryMode.bind(this);
@@ -54,6 +56,8 @@ export class RecipeGrid extends Component<GridProps, GridState> {
         }
       },
     });
+    let g = this.grid;
+    this.grid.getEvent('dragReleaseEnd', null, null,  this.storeSortOrder);
   }
 
   componentWillUnmount () {
@@ -79,7 +83,7 @@ export class RecipeGrid extends Component<GridProps, GridState> {
   {
      return (
       <RecipeCard
-        key={recipe.name}
+        key={"key" + recipe.id}
         recipeData={recipe}
         onMount={ this.addToGrid }
         onUnMount={ this.removeFromGrid }
@@ -97,7 +101,7 @@ export class RecipeGrid extends Component<GridProps, GridState> {
      return (
       <RecipeCard
         key='THE_NEW_RECIPE'
-        recipeData={ {name:"", text:""} }
+        recipeData={ {name:"", text:"", id:"recipe_NEW"} }
         onMount={ this.addToGrid }
         onUnMount={ this.removeFromGrid }
         editRecipe={ this.props.editRecipe }
@@ -158,5 +162,19 @@ export class RecipeGrid extends Component<GridProps, GridState> {
   setQueryMode(queryMode: boolean)
   {
     this.setState( {queryMode: queryMode, selectedItems: {} } );
+  }
+
+  idFromGridElement(gridElement: HTMLElement)
+  {
+    return gridElement.children[0].children[0].id;
+  }
+
+  storeSortOrder()
+  {
+    console.log("Elements=" + this.grid.getMethod('getItems').map( (item:any) =>
+      {
+        let id = this.idFromGridElement(item.getElement());
+        return id +  ':' + this.props.getNameForID(id);
+      }).join(","));
   }
 }

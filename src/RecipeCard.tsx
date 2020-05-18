@@ -67,7 +67,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
     return(
           <div className="item" ref={el => this.domElement = el}>
           <div className="item-content">
-          <div className="recipeCard">
+          <div className="recipeCard" id={"recipe_" + this.props.recipeData.id}>
           <div className="cardHeader">
           <span className="cardTitle"> {this.props.recipeData.name}</span>        </div>
           <div className="cardBody">

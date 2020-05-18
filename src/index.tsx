@@ -25,6 +25,7 @@ class App extends Component<AppProps, AppState> {
     this.deleteRecipe = this.deleteRecipe.bind(this);
     this.editRecipe = this.editRecipe.bind(this);
     this.addRecipe = this.addRecipe.bind(this);
+    this.getNameForID = this.getNameForID.bind(this);
     this.fetchRecipes = this.fetchRecipes.bind(this);
     if (APIConstants.consts.isMock)
     {
@@ -32,7 +33,7 @@ class App extends Component<AppProps, AppState> {
     }
     else
     {
-      this.service = new DataServiceImpl();
+      this.service = new DataServiceImpl()
     }
     this.state = {
       recipes: [],
@@ -47,7 +48,7 @@ class App extends Component<AppProps, AppState> {
 
   render() {
     let comp;
-    comp = <RecipeGrid recipes={this.state.recipes} deleteRecipeFromSvr={this.deleteRecipe} editRecipe={this.editRecipe} addRecipe={this.addRecipe} fetchRecipes={this.fetchRecipes}  />
+    comp = <RecipeGrid recipes={this.state.recipes} deleteRecipeFromSvr={this.deleteRecipe} editRecipe={this.editRecipe} addRecipe={this.addRecipe} fetchRecipes={this.fetchRecipes} getNameForID={this.getNameForID}  />
 
     return (
       <div>
@@ -106,6 +107,11 @@ class App extends Component<AppProps, AppState> {
   fetchRecipes()
   {
     this.service.getRecipes().then(this.updateRecipes).catch(this.reportError);
+  }
+
+  getNameForID(id: string)
+  {
+    return this.service.getNameForID(id);
   }
 }
 

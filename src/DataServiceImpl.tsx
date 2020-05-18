@@ -5,6 +5,7 @@ import * as APIConstants from './APIConstants.js';
 export class DataServiceImpl extends DataService
 {
   apiServer : string;
+  nameForID : Map<string, string>;
   constructor()
   {
     super();
@@ -18,6 +19,7 @@ export class DataServiceImpl extends DataService
     {
       this.apiServer = window.location.protocol + '//' +  window.location.hostname + ':' + APIConstants.consts.apiPort;
     }
+    this.nameForID = new Map();
   }
 
   getRecipes() : Promise<RecipeData[]>
@@ -59,9 +61,15 @@ export class DataServiceImpl extends DataService
          .then(this.handleErrors)
          .then(res => this.parseResponse(res));
   }
+  
+  getNameForIDNum(id: string) : string
+  {
+    return this.nameForID.has(id) ? this.nameForID.get(id)! : '';
+  }
 
   parseResponse(response : Response)
   {
+    let lThis = this;
     return response.json().then(
       r => 
       {
@@ -72,6 +80,11 @@ export class DataServiceImpl extends DataService
         if (r.error)
         {
           throw Error(r.error);
+        }
+        lThis.nameForID = new Map();
+        for (let recipe of r.recipes)
+        {
+          lThis.nameForID.set(recipe.id, recipe.name);
         }
         return r.recipes;
       });
