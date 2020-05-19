@@ -2,32 +2,9 @@
 const path = require('path');
 var webpack = require('webpack');
 
-var isMock = 'false'
-var apiPort = 'null';
 var apiServer='null';
-var mode='production';
-
-var setupAPI = function(env) {
-  switch (env.BUILDENV) {
-    case 'devMock':
-      isMock = 'true';
-      mode = 'development';
-      break;
-    case 'devLive':
-      isMock = 'false';
-      mode ='development';
-      apiPort = '"80"';
-    case 'production':
-    default:
-      isMock = 'false';
-      mode = 'production'
-      apiPort = 'null';
-      break;
-  }
-}
 
 module.exports = env => {
-  setupAPI(env); 
   
   return {
   // Tell webpack to begin building its 

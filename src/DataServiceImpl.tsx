@@ -62,6 +62,16 @@ export class DataServiceImpl extends DataService
          .then(res => this.parseResponse(res));
   }
   
+  setOrder(orderedItems: string[]) : Promise<void>
+  {
+    let req = {action: 'setOrder', orderedItems: orderedItems};
+    return fetch(
+      this.apiServer + '/service/',
+       {method: 'post', credentials:'include', body: JSON.stringify(req)})
+         .then(this.handleErrors)
+         .then(res => {});
+  }
+  
   getNameForIDNum(id: string) : string
   {
     return this.nameForID.has(id) ? this.nameForID.get(id)! : '';

@@ -77,4 +77,11 @@ export class MockDataService extends DataService
     return this.getRecipes();
   }
 
+  setOrder(orderedItems: string[]) : Promise<void>
+  {
+    return new Promise(function (this: MockDataService, resolve : any, reject : any)
+    {
+      resolve();
+    }.bind(this));
+  }
 }

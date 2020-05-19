@@ -20,4 +20,6 @@ export abstract class DataService
   {
     return this.getNameForIDNum(id.split("_")[1]);
   }
+
+  abstract setOrder(orderedItems: string[]) : Promise<void> ;
 }

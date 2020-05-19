@@ -4,6 +4,7 @@ import MuuriGrid from 'react-muuri';
 import {RecipeData} from './DataService';
 import * as APIConstants from './APIConstants.js';
 import * as utils from './utils';
+import {DataService} from './DataService';
 
 
 interface GridProps {
@@ -12,7 +13,7 @@ interface GridProps {
   editRecipe(recipe: RecipeData) : void
   addRecipe(recipe: RecipeData) : void
   fetchRecipes() : void
-  getNameForID(id: string): string
+  service : DataService
 }
 
 interface GridState {
@@ -171,10 +172,7 @@ export class RecipeGrid extends Component<GridProps, GridState> {
 
   storeSortOrder()
   {
-    console.log("Elements=" + this.grid.getMethod('getItems').map( (item:any) =>
-      {
-        let id = this.idFromGridElement(item.getElement());
-        return id +  ':' + this.props.getNameForID(id);
-      }).join(","));
+    let items = this.grid.getMethod('getItems').map( (item:any) => this.idFromGridElement(item.getElement())).map( (htmlId:string) => htmlId.split('_')[1]);
+    this.props.service.setOrder(items);
   }
 }
