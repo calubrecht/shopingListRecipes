@@ -31,11 +31,12 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-muuri": "^0.3.0",
+    "serialize-javascript": ">=3.1.0",
     "ts-loader": "^7.0.2",
     "typescript": "^3.8.3",
     "url-loader": "^4.1.0",
-    "webpack": "^4.43.0",
-    "webpack-dev-server": "^3.10.3"
+    "webpack": "^4.44.1",
+    "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
     "webpack-cli": "^3.3.11"
