@@ -38,7 +38,7 @@ export class CacheBuster extends React.Component {
           console.log(`Recipes: We have a new version - ${latestVersion}. Refreshing Cache`);
           this.setState({ loading: false, isLatestVersion: false });
         } else {
-          console.log(`Recipels: Version - ${latestVersion}.`);
+          console.log(`Recipes: Version - ${latestVersion}.`);
           this.setState({ loading: false, isLatestVersion: true });
         }
       });
