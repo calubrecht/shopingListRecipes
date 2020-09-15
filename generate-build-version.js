@@ -18,6 +18,11 @@ fs.writeFile('./public/meta.json', jsonContent, 'utf8', function(err) {
   console.log('meta.json file has been saved with latest version number');
 });
 
+
+if (!fs.existsSync('./build'))
+{
+  fs.mkdirSync('./build');
+}
 fs.writeFile('./build/meta.json', jsonContent, 'utf8', function(err) {
   if (err) {
     console.log('An error occured while writing JSON Object to build/meta.json');
