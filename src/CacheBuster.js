@@ -35,10 +35,10 @@ export class CacheBuster extends React.Component {
 
         const shouldForceRefresh = semverChanged(latestVersion, currentVersion);
         if (shouldForceRefresh) {
-          console.log(`We have a new version - ${latestVersion}. Refreshing Cache`);
+          console.log(`Recipes: We have a new version - ${latestVersion}. Refreshing Cache`);
           this.setState({ loading: false, isLatestVersion: false });
         } else {
-          console.log(`Version - ${latestVersion}.`);
+          console.log(`Recipels: Version - ${latestVersion}.`);
           this.setState({ loading: false, isLatestVersion: true });
         }
       });
