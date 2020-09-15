@@ -5,6 +5,7 @@ import {RecipeData} from './DataService';
 import {MockDataService} from './MockDataService';
 import {DataServiceImpl} from './DataServiceImpl';
 import {RecipeGrid} from './RecipeGrid';
+import {CacheBuster} from './CacheBuster';
 import * as APIConstants from './APIConstants.js';
 import './css/recipe.css';
 
@@ -53,6 +54,7 @@ class App extends Component<AppProps, AppState> {
       <div>
       {comp}
       <div>{this.state.error}</div>
+      <CacheBuster></CacheBuster>
       </div>
     );
   }
