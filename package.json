@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --env.BUILDENV=production --display-modules",
     "serveLive": "webpack-dev-server --env.BUILDENV=devLive --open",
+    "serveLiveM": "webpack-dev-server --env.BUILDENV=devLiveM --open",
     "serve": "npm run prebuild; webpack-dev-server --env.BUILDENV=devMock --open",
     "prebuild": "node generate-build-version"
   },

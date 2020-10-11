@@ -46,7 +46,7 @@ module.exports = env => {
     new webpack.DefinePlugin(
       {
         REACT_APP_MOCK: env.BUILDENV === 'devMock' ? 'true' : 'false',
-        REACT_APP_PORT: env.BUILDENV === 'devLive' ? '"80"' : 'null',
+        REACT_APP_PORT: env.BUILDENV === 'devLive' ? '"80"' : (env.BUILDENV === 'devLiveM' ? '"8080"' : 'null') ,
         REACT_APP_API_SERVER: apiServer
       }
     )
