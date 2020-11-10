@@ -1,6 +1,8 @@
 div.recipeCard { width:374px; }
 div.recipeCard.editing {z-index:10}
 
+div.recipeRoot { font-family: Georgia }
+
 .cardHeader { display:flex; justify-content:flex-end}
 
 .cardTitle {background :white;
