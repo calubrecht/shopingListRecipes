@@ -27,7 +27,7 @@ export class CacheBuster extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/meta.json')
+    fetch('/meta.json', {cache:"reload"})
       .then((response) => response.json())
       .then((meta) => {
         const latestVersion = meta.version;
