@@ -100,6 +100,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
           <div className="item-content">
           <div className="recipeCard editing" onKeyDown={this.onKeydown}>
           <div className="cardHeader">
+          <form>
 
           <span className="cardTitle"> {title}</span>        </div>
           <div className="cardBody">
@@ -113,7 +114,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
             <div>
                <button type="button" onClick={this.cancelEdit}>Cancel</button><button type="button" onClick={this.confirmEdit}>Save</button>
             </div>
-
+          </form>
           </div>
         </div>
       </div>
