@@ -113,7 +113,7 @@ export class DataServiceImpl extends DataService
   {
     let XSRFTOKEN = document.cookie
       .split('; ')
-      .find(row => row.startsWith('XSRF-TOKEN='));
+      .find(row => row.startsWith('XSRF_TOKEN='));
     return XSRFTOKEN ?
     {
       'Content-Type': 'application/json',
