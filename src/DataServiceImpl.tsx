@@ -117,7 +117,7 @@ export class DataServiceImpl extends DataService
     return XSRFTOKEN ?
     {
       'Content-Type': 'application/json',
-      'x-xsrf-token': XSRFTOKEN
+      'x-xsrf-token': XSRFTOKEN.split('=')[1]
     } 
     :
     { 'Content-Type': 'application/json'};
