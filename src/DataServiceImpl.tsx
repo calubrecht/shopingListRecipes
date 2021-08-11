@@ -27,7 +27,7 @@ export class DataServiceImpl extends DataService
     let req = {action: 'getRecipes'};
     return fetch(
       this.apiServer + '/service/',
-       {method: 'post', credentials:'include', body: JSON.stringify(req)})
+       {method: 'post', credentials:'include', body: JSON.stringify(req), headers: this.getPostHeaders()})
          .then(this.handleErrors)
          .then(res => this.parseResponse(res));
   }
@@ -37,7 +37,7 @@ export class DataServiceImpl extends DataService
     let req = {action: 'deleteRecipe', recipe:name};
     return fetch(
       this.apiServer + '/service/',
-       {method: 'post', credentials:'include', body: JSON.stringify(req)})
+       {method: 'post', credentials:'include', body: JSON.stringify(req), headers: this.getPostHeaders()})
          .then(this.handleErrors)
          .then(res => this.parseResponse(res));
   }
@@ -47,7 +47,7 @@ export class DataServiceImpl extends DataService
     let req = {action: 'editRecipe', recipe:recipeData};
     return fetch(
       this.apiServer + '/service/',
-       {method: 'post', credentials:'include', body: JSON.stringify(req)})
+       {method: 'post', credentials:'include', body: JSON.stringify(req), headers: this.getPostHeaders()})
          .then(this.handleErrors)
          .then(res => this.parseResponse(res));
   }
@@ -57,7 +57,7 @@ export class DataServiceImpl extends DataService
     let req = {action: 'addRecipe', recipe:recipeData};
     return fetch(
       this.apiServer + '/service/',
-       {method: 'post', credentials:'include', body: JSON.stringify(req)})
+       {method: 'post', credentials:'include', body: JSON.stringify(req), headers: this.getPostHeaders()})
          .then(this.handleErrors)
          .then(res => this.parseResponse(res));
   }
@@ -67,7 +67,7 @@ export class DataServiceImpl extends DataService
     let req = {action: 'setOrder', orderedItems: orderedItems};
     return fetch(
       this.apiServer + '/service/',
-       {method: 'post', credentials:'include', body: JSON.stringify(req)})
+       {method: 'post', credentials:'include', body: JSON.stringify(req), headers: this.getPostHeaders()})
          .then(this.handleErrors)
          .then(res => {});
   }
@@ -108,4 +108,18 @@ export class DataServiceImpl extends DataService
     }
     return response;
   } 
+
+  getPostHeaders() : Record<string, string>
+  {
+    let XSRFTOKEN = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('XSRF-TOKEN='));
+    return XSRFTOKEN ?
+    {
+      'Content-Type': 'application/json',
+      'x-xsrf-token': XSRFTOKEN
+    } 
+    :
+    { 'Content-Type': 'application/json'};
+  }
 }
