@@ -10,12 +10,11 @@ module.exports = env => {
   // Tell webpack to begin building its 
   // dependency graph from this file.
   mode: env.BUILDENV === 'production' ? 'production': 'development',
-  devtool: env.BUILDENV === 'production' ? '' : 'inline-source-map',
+  ...(env.BUILDENV !== 'production' && {devtool: 'inline-source-map'}),
   devServer: {
-    contentBase: './public',
-    host: '0.0.0.0',
-    port: 3000,
-    disableHostCheck: true
+    static: './public',
+    host: 'dev-server',
+    port: 3000
   },
   entry: path.join(__dirname, 'src', 'index.tsx'),
   // And to place the output in the `build` directory

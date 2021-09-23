@@ -5,10 +5,10 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --env.BUILDENV=production --display-modules",
-    "serveLive": "webpack-dev-server --env.BUILDENV=devLive --open",
-    "serveLiveM": "webpack-dev-server --env.BUILDENV=devLiveM --open",
-    "serve": "npm run prebuild; webpack-dev-server --env.BUILDENV=devMock --open",
+    "build": "webpack --env BUILDENV=production",
+    "serveLive": "webpack- serve --env BUILDENV=devLive",
+    "serveLiveM": "webpack serve --env BUILDENV=devLiveM",
+    "serve": "npm run prebuild; webpack serve --env BUILDENV=devMock",
     "prebuild": "node generate-build-version"
   },
   "repository": {
@@ -26,9 +26,9 @@
     "@types/node": "^13.13.48",
     "@types/react": "^16.14.5",
     "@types/react-dom": "^16.9.12",
-    "babel-core": "^6.26.3",
+    "babel-core": "^7.0.0-beta.3",
     "babel-loader": "^8.2.2",
-    "babel-preset-env": "^1.7.0",
+    "babel-preset-env": "^2.0.0-beta.2",
     "babel-preset-react": "^6.24.1",
     "node-forge": ">=0.10.0",
     "react": "^16.8.0",
