@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {RecipeCard} from './RecipeCard';
-import MuuriGrid from 'react-muuri';
+import {MuuriComponent, muuriMap} from 'muuri-react';
 import {RecipeData} from './DataService';
 import * as APIConstants from './APIConstants.js';
 import * as utils from './utils';
 import {DataService} from './DataService';
-
 
 interface GridProps {
   recipes: RecipeData[],
@@ -16,6 +15,7 @@ interface GridProps {
   service : DataService
 }
 
+
 interface GridState {
   addingRecipe: boolean
   queryMode: boolean
@@ -23,14 +23,12 @@ interface GridState {
   selectCB?(cb : string) : void
 }
 export class RecipeGrid extends Component<GridProps, GridState> {
-  grid : any;
   gridElement : any;
+  gridOptions : any;
 
 
   constructor(props : GridProps) {
     super(props);
-    this.addToGrid = this.addToGrid.bind(this);
-    this.removeFromGrid = this.removeFromGrid.bind(this);
     this.onResize = this.onResize.bind(this);
     this.cancelNew = this.cancelNew.bind(this);
     this.addRecipe = this.addRecipe.bind(this);
@@ -40,44 +38,51 @@ export class RecipeGrid extends Component<GridProps, GridState> {
     APIConstants.EXT_CALLBACK_REGISTRY['refreshRecipeGrid'] =  this.refreshGrid.bind(this);
     APIConstants.EXT_CALLBACK_REGISTRY['setQueryMode'] =  this.setQueryMode.bind(this);
     APIConstants.EXT_CALLBACK_REGISTRY['setSelectCB'] =(cb : any) => this.setState({selectCB: cb});
-  }
-  
-  componentDidMount () {
-    this.grid = new MuuriGrid({
-      node: this.gridElement,
-      defaultOptions: {
-        dragEnabled: true,
-        dragStartPredicate: function (item : any, e : any, options:any)
-        {
-          if (e.target.className === 'cardTitle')
-          {
-            return utils.defaultStartPredicate(item, e, options);
-          }
-          return false;
-        }
-      },
-    });
-    let g = this.grid;
-    this.grid.getEvent('dragReleaseEnd', null, null,  this.storeSortOrder);
-  }
-
-  componentWillUnmount () {
-    this.grid.getMethod('destroy');
+    this.gridOptions = {
+            id: 'THEGRID',
+            dragEnabled: true,
+            onDragEnd: this.storeSortOrder,
+            dragStartPredicate: function (item : any, e : any, options:any)
+            {
+              if (e.target.className === 'cardTitle')
+              {
+                return utils.defaultStartPredicate(item, e, options);
+              }
+              return false;
+            }};
   }
   
   render() {
+    if (this.props.recipes.length === 0)
+    {
+      return <div>
+        <h1>Your Recipes</h1>
+        {this.state.addingRecipe || this.state.queryMode ||
+            <button onClick={e => this.setState({addingRecipe:true})}>Add Recipe</button>}
+      </div>;
+    }
     return (
       <div>
         <h1>Your Recipes</h1>
-        <div ref={gridElement => this.gridElement = gridElement}>
-        {this.props.recipes.map( (recipeData : RecipeData) => this.renderCard(recipeData))}
-        {this.state.addingRecipe && 
-            this.renderNewCard()}
-        </div>
+        <MuuriComponent {...this.gridOptions}>
+        {this.state.addingRecipe ? this.renderCardsWithNew() : this.renderCards()}
+        </MuuriComponent>
         {this.state.addingRecipe || this.state.queryMode ||
             <button onClick={e => this.setState({addingRecipe:true})}>Add Recipe</button>}
       </div>
     );
+  }
+
+  renderCards()
+  {
+    return this.props.recipes.map((recipeData : RecipeData) => this.renderCard(recipeData));
+  }
+
+  renderCardsWithNew()
+  {
+    let roCards = this.renderCards();
+    roCards.push(this.renderNewCard());
+    return roCards;
   }
 
   renderCard(recipe : RecipeData)
@@ -86,8 +91,6 @@ export class RecipeGrid extends Component<GridProps, GridState> {
       <RecipeCard
         key={"key" + recipe.id}
         recipeData={recipe}
-        onMount={ this.addToGrid }
-        onUnMount={ this.removeFromGrid }
         editRecipe={ this.props.editRecipe }
         onResize={ this.onResize }
         queryMode={ this.state.queryMode }
@@ -103,8 +106,6 @@ export class RecipeGrid extends Component<GridProps, GridState> {
       <RecipeCard
         key='THE_NEW_RECIPE'
         recipeData={ {name:"", text:"", id:"recipe_NEW"} }
-        onMount={ this.addToGrid }
-        onUnMount={ this.removeFromGrid }
         editRecipe={ this.props.editRecipe }
         addRecipe={ this.addRecipe }
         queryMode={ false}
@@ -137,26 +138,18 @@ export class RecipeGrid extends Component<GridProps, GridState> {
     }
   }
 
-  addToGrid(component : any)
-  {
-    this.grid.getMethod('add', [component], {isActive:true});
-  }
-  
-  removeFromGrid(component : any)
-  {
-    this.grid.getMethod('remove', [component], {removeElements:false});
-  }
-
   onResize(component :any)
   {
-    this.grid.getMethod('refreshItems', [component]);
-    this.grid.getMethod('layout');
+    let g = this.getGrid();
+    g.refreshItems();
+    g.layout();
   }
   
   refreshGrid()
   {
-    this.grid.getMethod('refreshItems');
-    this.grid.getMethod('layout');
+    let g = this.getGrid();
+    g.refreshItems();
+    g.layout();
     this.props.fetchRecipes();
   }
   
@@ -172,7 +165,12 @@ export class RecipeGrid extends Component<GridProps, GridState> {
 
   storeSortOrder()
   {
-    let items = this.grid.getMethod('getItems').map( (item:any) => this.idFromGridElement(item.getElement())).map( (htmlId:string) => htmlId.split('_')[1]);
+    let items = this.getGrid().getItems().map( (item:any) => this.idFromGridElement(item.getElement())).map( (htmlId:string) => htmlId.split('_')[1]);
     this.props.service.setOrder(items);
+  }
+
+  getGrid()
+  { 
+    return muuriMap.get(this.gridOptions.id);
   }
 }

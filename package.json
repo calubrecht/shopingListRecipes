@@ -1,6 +1,6 @@
 {
   "name": "recipes",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "webpack.config.js",
   "scripts": {
@@ -30,11 +30,12 @@
     "babel-loader": "^8.2.2",
     "babel-preset-env": "^2.0.0-beta.2",
     "babel-preset-react": "^6.24.1",
+    "muuri": "^0.8.0",
+    "muuri-react": "^3.1.6",
     "node-forge": ">=0.10.0",
     "optional-require": "^1.1.8",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "react-muuri": "^0.3.0",
     "serialize-javascript": ">=3.1.0",
     "ssri": ">=8.0.1",
     "ts-loader": "^7.0.5",

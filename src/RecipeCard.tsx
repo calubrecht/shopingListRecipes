@@ -7,8 +7,6 @@ export interface RecipeProps
   recipeData : RecipeData
   queryMode : boolean
   selected : boolean
-  onMount(card: any) : void
-  onUnMount(card: any) : void
   onDelete(recipe: string) : void
   onResize(card: any) : void
   editRecipe(recipe: RecipeData) : void
@@ -133,7 +131,6 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
   }
 
   componentDidMount () {
-    this.props.onMount(this.domElement);
     this.focusIfRequired();
   }
 
@@ -174,10 +171,6 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
     }
   }
   
-  componentWillUnmount () {
-    this.props.onUnMount(this.domElement);
-  }
-
   doEdit() {
     this.elementToFocus = "description:0";
     this.setState( {
