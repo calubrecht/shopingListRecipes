@@ -2,6 +2,9 @@
 const path = require('path');
 var webpack = require('webpack');
 
+const { optionalRequire } = require("optional-require");
+const localConfig = optionalRequire("./config.local.js", {require, message:true}) || {devServer:'localhost'};
+
 var apiServer='null';
 
 module.exports = env => {
@@ -13,7 +16,7 @@ module.exports = env => {
   ...(env.BUILDENV !== 'production' && {devtool: 'inline-source-map'}),
   devServer: {
     static: './public',
-    host: 'dev-server',
+    host: localConfig.devServer,
     port: 3000
   },
   entry: path.join(__dirname, 'src', 'index.tsx'),
