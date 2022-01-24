@@ -148,8 +148,11 @@ export class RecipeGrid extends Component<GridProps, GridState> {
   refreshGrid()
   {
     let g = this.getGrid();
-    g.refreshItems();
-    g.layout();
+    if (g)
+    {
+      g.refreshItems();
+      g.layout();
+    }
     this.props.fetchRecipes();
   }
   
