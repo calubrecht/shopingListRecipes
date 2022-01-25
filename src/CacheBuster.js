@@ -21,7 +21,9 @@ export class CacheBuster extends React.Component {
           });
         }
         // delete browser cache and hard reload
-        window.location.reload(true);
+        fetch('/js/bundle.js', {cache:"reload"}).then(() => {
+          window.location.reload();
+        });
       }
     };
   }
