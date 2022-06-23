@@ -1,6 +1,6 @@
 {
   "name": "recipes",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "webpack.config.js",
   "scripts": {
@@ -41,8 +41,8 @@
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.9",
     "url-loader": "^4.1.1",
-    "webpack": "^5.53.0",
-    "webpack-dev-server": "^4.2.1"
+    "webpack": "^5.73.0",
+    "webpack-dev-server": "^4.9.2"
   },
   "devDependencies": {
     "webpack-cli": "^4.8.0"
