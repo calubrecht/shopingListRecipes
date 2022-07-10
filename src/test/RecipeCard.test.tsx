@@ -1,0 +1,27 @@
+import  React from 'react';
+import renderer from 'react-test-renderer';
+import {RecipeCard} from '../RecipeCard';
+
+
+
+class WrapperComponent extends React.Component
+{
+    constructor(props)
+    {
+      super(props);
+    }
+
+    render()
+    {
+      return <RecipeCard recipeData={this.props.recipeData} />;
+    }
+}
+
+
+test('Display Card', () => {
+  let recipeData = {name: 'Good recipe', id:'ID1', text: 'All the good stuff', keyIngredients: ['1','2','3'], commonIngredients: ['4','5']};
+  let component = renderer.create(
+    <WrapperComponent recipeData={recipeData} />
+  );
+
+});
