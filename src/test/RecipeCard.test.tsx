@@ -17,7 +17,7 @@ class WrapperComponent extends React.Component
 
     render()
     {
-      return <RecipeCard recipeData={this.props.recipeData} queryMode={false} selected={false} onDelete={() => {}} onResize= {() => {}} newRecipe={false} selectReceipe= {() => {}} />;
+      return <RecipeCard recipeData={this.props.recipeData} queryMode={false} selected={false} onDelete={() => {}} onResize= {() => {}} newRecipe={false} selectRecipe= {() => {}} />;
     }
 }
 
