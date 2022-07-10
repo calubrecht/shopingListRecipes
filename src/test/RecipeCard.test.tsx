@@ -17,13 +17,13 @@ class WrapperComponent extends React.Component
 
     render()
     {
-      return <RecipeCard recipeData={this.props.recipeData} />;
+      return <RecipeCard recipeData={this.props.recipeData} queryMMode={false} selected={false} onDelete={() => {}} onResize= {() => {}} newRecipe={false} selectReceipe= {() => {}} />;
     }
 }
 
 
 test('Display Card', () => {
-  let recipeData = {name: 'Good recipe', id:'ID1', text: 'All the good stuff', keyIngredients: ['1','2','3'], commonIngredients: ['4','5'], queryMMode:false, selected:false, onDelete:() => {}, onResize: () => {}, newRecipe:false, selectReceipe: () => {}};
+  let recipeData = {name: 'Good recipe', id:'ID1', text: 'All the good stuff', keyIngredients: ['1','2','3'], commonIngredients: ['4','5']};
   let component = renderer.create(
     <WrapperComponent recipeData={recipeData} />
   );
