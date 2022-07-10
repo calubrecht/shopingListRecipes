@@ -49,6 +49,7 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@types/jest": "^28.1.4",
+    "@types/react-test-renderer": "^18.0.0",
     "jest": "^28.1.2",
     "jest-junit": "^14.0.0",
     "react-test-renderer": "^16.14.0",
@@ -62,6 +63,9 @@
       "src/**/*.tsx",
       "!src/index.tsx"
     ],
-    "reporters": ["default", "jest-junit"]
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
   }
 }
