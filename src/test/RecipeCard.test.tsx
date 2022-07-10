@@ -1,7 +1,7 @@
 import  React from 'react';
 import renderer from 'react-test-renderer';
 import {RecipeCard} from '../RecipeCard';
-import {RecipeData} from './DataService';
+import {RecipeData} from '../DataService';
 
 interface WrapperProps
 {
