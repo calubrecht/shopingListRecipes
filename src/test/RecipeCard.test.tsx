@@ -1,12 +1,16 @@
 import  React from 'react';
 import renderer from 'react-test-renderer';
 import {RecipeCard} from '../RecipeCard';
+import {RecipeData} from './DataService';
 
-
+interface WrapperProps
+{
+  recipeData : RecipeData
+}
 
 class WrapperComponent extends React.Component
 {
-    constructor(props)
+    constructor(props: WrapperProps)
     {
       super(props);
     }
