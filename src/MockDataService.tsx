@@ -52,11 +52,6 @@ export class MockDataService extends DataService
     }.bind(this));
   }
 
-  recipesNow() : RecipeData[]
-  {
-    return Array.from(this.recipeBook.values());
-  }
-  
   deleteRecipe(name : string)  : Promise<RecipeData[]>
   {
     this.recipeBook.delete(name);
