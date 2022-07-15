@@ -22,7 +22,7 @@ export interface RecipeState
   recipeData : RecipeData
 }
 
-export function domFromEl(el)
+export function domFromEl(el:any)
 {
   return el || {getElementsByClassName: () => [{focus: () =>{}}]};
 }
