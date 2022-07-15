@@ -22,6 +22,11 @@ export interface RecipeState
   recipeData : RecipeData
 }
 
+export function domFromEl(el)
+{
+  return el || {getElementsByClassName: () => [{focus: () =>{}}]};
+}
+
 export class RecipeCard extends React.Component<RecipeProps, RecipeState>
 {
   domElement : any;
@@ -94,7 +99,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
       title = <input type="text" className="name" name="name" value={this.state.recipeData.name}  onChange={this.handleChangeField} placeholder="Enter a new recipe name." />;
     }
     return(
-          <div className="item" ref={el => this.domElement = el}>
+          <div className="item" ref={el => this.domElement = domFromEl(el)} >
           <div className="item-content">
           <div className="recipeCard editing" onKeyDown={this.onKeydown}>
           <form>
