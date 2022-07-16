@@ -12,7 +12,7 @@ export interface RecipeProps
   editRecipe(recipe: RecipeData) : void
   addRecipe? (recipe: RecipeData) : void
   selectRecipe? (recipe : string) : void
-  cancelNew? () : void
+  cancelNew () : void
   newRecipe : boolean
 }
 

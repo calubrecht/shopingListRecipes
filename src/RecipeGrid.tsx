@@ -97,6 +97,7 @@ export class RecipeGrid extends Component<GridProps, GridState> {
         newRecipe = {false}
         selected = {this.state.selectedItems[recipe.name]}
         selectRecipe = { this.selectRecipe }
+        cancelNew = {this.cancelNew}
         onDelete={ this.props.deleteRecipeFromSvr} />);
   }
   
