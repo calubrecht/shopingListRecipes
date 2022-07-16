@@ -22,6 +22,7 @@ export interface RecipeState
   recipeData : RecipeData
 }
 
+// Testing purposs
 export function domFromEl(el:any)
 {
   return el || {getElementsByClassName: () => [{focus: () =>{}}]};

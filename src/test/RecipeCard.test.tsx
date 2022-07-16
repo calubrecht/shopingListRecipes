@@ -139,3 +139,40 @@ test('Delete Card', () => {
   expect(deleteCB.mock.calls.length).toBe(1);
 
 });
+
+test('Test resizes', () => {
+
+  let recipeData = {name: 'Good recipe', id:'ID1', text: 'All the good stuff', keyIngredients: ['1','2','3'], commonIngredients: ['4','5']};
+  let resizeCB = jest.fn(() => {});
+  let component =  renderer.create(
+     <RecipeCard recipeData={recipeData} queryMode={false} selected={false} onDelete={ () => {} } onResize= {resizeCB} newRecipe={false} selectRecipe= {() => {}} editRecipe= {() => {}} />);
+
+  // If missing style height, set style height and resize()
+  let ta = {style:{}, scrollHeight:'1'};
+  component.root.instance.textAreaElement = ta;
+  component.update(
+     <RecipeCard recipeData={recipeData} queryMode={false} selected={false} onDelete={ () => {} } onResize= {resizeCB} newRecipe={false} selectRecipe= {() => {}} editRecipe= {() => {}} />);
+  expect(ta.style.height).toBe('1px');
+  expect(resizeCB.mock.calls.length).toBe(1);
+
+  // If style.height doesn't match scholl height, set height and resize
+  ta.style.height = '2px';
+  component.update(
+     <RecipeCard recipeData={recipeData} queryMode={false} selected={false} onDelete={ () => {} } onResize= {resizeCB} newRecipe={false} selectRecipe= {() => {}} editRecipe= {() => {}} />);
+  expect(ta.style.height).toBe('1px');
+  expect(resizeCB.mock.calls.length).toBe(2);
+  
+  // If match, don't resize
+  component.update(
+     <RecipeCard recipeData={recipeData} queryMode={false} selected={false} onDelete={ () => {} } onResize= {resizeCB} newRecipe={false} selectRecipe= {() => {}} editRecipe= {() => {}} />);
+  expect(ta.style.height).toBe('1px');
+  expect(resizeCB.mock.calls.length).toBe(2);
+});
+
+test('Display QueryMode without select', () => {
+  let recipeData = {id:'ID1', text: 'All the good stuff'};
+  let component = renderer.create(
+     <RecipeCard recipeData={recipeData} queryMode={true} selected={false} onDelete={() => {}} onResize= {() => {}} newRecipe={false}  editRecipe= {() => {}} />);
+
+  component.root.findAllByProps({className:"selectBtn"})[0].children[0].props.onClick();
+});
