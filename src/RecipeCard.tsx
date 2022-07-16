@@ -115,7 +115,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
                <li key={"common" + (commonI).toString()} className="commonIngredient"><input type="text" className="commonIngredients" value="" onChange={this.handleChangeList} name={"common" + (commonI++).toString()} placeholder = "New ingredient" /></li>
             </ul>
             <div>
-               <button type="button" onClick={this.cancelEdit}>Cancel</button><button type="button" onClick={this.confirmEdit}>Save</button>
+               <button type="button" className="cancelBtn" onClick={this.cancelEdit}>Cancel</button><button type="button" onClick={this.confirmEdit}>Save</button>
             </div>
           </div>
           </form>
@@ -192,7 +192,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
   cancelEdit()
   {
     this.needResize = true;
-    if (this.props.newRecipe && this.props.cancelNew)
+    if (this.props.newRecipe )
     {
       this.props.cancelNew();
     }
