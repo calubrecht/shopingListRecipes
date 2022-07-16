@@ -116,7 +116,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
                <li key={"common" + (commonI).toString()} className="commonIngredient"><input type="text" className="commonIngredients" value="" onChange={this.handleChangeList} name={"common" + (commonI++).toString()} placeholder = "New ingredient" /></li>
             </ul>
             <div>
-               <button type="button" className="cancelBtn" onClick={this.cancelEdit}>Cancel</button><button type="button" onClick={this.confirmEdit}>Save</button>
+               <button type="button" className="cancelBtn" onClick={this.cancelEdit}>Cancel</button><button className="confirmBtn" type="button" onClick={this.confirmEdit}>Save</button>
             </div>
           </div>
           </form>

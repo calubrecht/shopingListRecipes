@@ -39,8 +39,9 @@ test('Display Card', () => {
 test('Display Card as new', () => {
   let recipeData = {id:'ID1', text: 'All the good stuff'};
   let cancelCB = jest.fn(() => {});
+  let addCB = jest.fn(() => {});
   let component = renderer.create(
-     <RecipeCard recipeData={recipeData} queryMode={false} selected={false} onDelete={() => {}} onResize= {() => {}} newRecipe={true} selectRecipe= {() => {}} editRecipe= {() => {}} cancelNew = {cancelCB} />);
+     <RecipeCard recipeData={recipeData} queryMode={false} selected={false} onDelete={() => {}} onResize= {() => {}} newRecipe={true} selectRecipe= {() => {}} editRecipe= {() => {}} cancelNew = {cancelCB} addRecipe = {addCB}/>);
 
 
   expect(component.root.findAllByProps({className:"name"}).length).toBe(1);
@@ -51,8 +52,21 @@ test('Display Card as new', () => {
   
   component.root.findAllByProps({className:"cancelBtn"})[0].props.onClick();
   expect(cancelCB.mock.calls.length).toBe(1);
-  
 
+  // reenable edit
+  component.root.instance.doEdit();
+  // If no name, save does nothing
+  component.root.findAllByProps({className:"confirmBtn"})[0].props.onClick();
+  expect(addCB.mock.calls.length).toBe(0);
+
+  // reenable edit
+  component.root.instance.doEdit();
+  // Change data
+  let changeEvt = {target: {name: 'name', value: 'A good name'}};
+  component.root.findAllByProps({className:"name"})[0].props.onChange(changeEvt);
+  component.root.findAllByProps({className:"confirmBtn"})[0].props.onClick();
+  expect(addCB.mock.calls.length).toBe(1);
+  expect(addCB.mock.calls[0][0].name).toBe('A good name');
 });
 
 test('Display QueryMode', () => {
@@ -79,15 +93,23 @@ test('Display QueryMode', () => {
 test('Edit Card', () => {
 
   let recipeData = {name: 'Good recipe', id:'ID1', text: 'All the good stuff', keyIngredients: ['1','2','3'], commonIngredients: ['4','5']};
+  let editCB = jest.fn(() => {});
   let component = renderer.create(
-    <WrapperComponent recipeData={recipeData} />
-  );
+     <RecipeCard recipeData={recipeData} queryMode={false} selected={false} onDelete={() => {}} onResize= {() => {}} newRecipe={false} selectRecipe= {() => {}} editRecipe= {editCB} cancelNew = {() => {}} />);
   
   expect(component.root.findAllByProps({className:"name"}).length).toBe(0);
   expect(component.root.findAllByType(DeleteWidget).length).toBe(1);
 
   component.root.findAllByProps({className:"editBtn"})[0].children[0].props.onClick();
   expect(component.root.findAllByType('input').length).toBe(7);
+  
+  // reenable edit
+  component.root.instance.doEdit();
+  // Change data
+  let changeEvt = {target: {name: 'text', value: 'Good Stuff'}};
+  component.root.findAllByProps({className:"description"})[0].props.onChange(changeEvt);
+  component.root.findAllByProps({className:"confirmBtn"})[0].props.onClick();
+  expect(editCB.mock.calls[0][0].text).toBe('Good Stuff');
 
 });
 
