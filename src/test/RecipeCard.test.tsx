@@ -49,6 +49,9 @@ test('Display Card as new', () => {
   expect(component.root.findAllByProps({className:"name"})[0].props.value).toBeUndefined();
   expect(component.root.findAllByType('input').length).toBe(3);
   
+  component.root.findAllByProps({className:"cancelBtn"})[0].props.onClick();
+  expect(cancelCB.mock.calls.length).toBe(1);
+  
 
 });
 
@@ -101,6 +104,24 @@ test('Cancel Edit Card', () => {
   component.root.findAllByProps({className:"editBtn"})[0].children[0].props.onClick();
   expect(component.root.findAllByType('input').length).toBe(7);
   component.root.findAllByProps({className:"cancelBtn"})[0].props.onClick();
+  expect(component.root.findAllByType('input').length).toBe(0);
+  expect(resizeCB.mock.calls.length).toBe(1);
+
+});
+
+test('Cancel Edit KB', () => {
+
+  let recipeData = {name: 'Good recipe', id:'ID1', text: 'All the good stuff', keyIngredients: ['1','2','3'], commonIngredients: ['4','5']};
+  let resizeCB = jest.fn(() => {});
+  let component = renderer.create(
+     <RecipeCard recipeData={recipeData} queryMode={false} selected={false} onDelete={ () => {} } onResize= {resizeCB} newRecipe={false} selectRecipe= {() => {}} editRecipe= {() => {}} />);
+
+  component.root.findAllByProps({className:"editBtn"})[0].children[0].props.onClick();
+  let keyEvt = { key:"Enter", stopPropagation: () => {}, preventDefault: () => {} }
+  component.root.findByProps({className:"recipeCard editing"}).props.onKeyDown(keyEvt);
+  expect(component.root.findAllByType('input').length).toBe(7);
+  keyEvt = { key:"Escape", stopPropagation: () => {}, preventDefault: () => {} }
+  component.root.findByProps({className:"recipeCard editing"}).props.onKeyDown(keyEvt);
   expect(component.root.findAllByType('input').length).toBe(0);
   expect(resizeCB.mock.calls.length).toBe(1);
 
