@@ -25,7 +25,8 @@ export interface RecipeState
 // Testing purposs
 export function domFromEl(el:any)
 {
-  return el || {getElementsByClassName: () => [{focus: () =>{}}]};
+  let bogEl = {focus: () => {}};
+  return el || {getElementsByClassName: () => Array(5).fill(bogEl)};
 }
 
 export class RecipeCard extends React.Component<RecipeProps, RecipeState>
@@ -69,7 +70,7 @@ export class RecipeCard extends React.Component<RecipeProps, RecipeState>
   renderReadOnly()
   {
     return(
-          <div className="item" ref={el => this.domElement = el}>
+          <div className="item" ref={el => this.domElement = domFromEl(el)}>
           <div className="item-content">
           <div className="recipeCard" id={"recipe_" + this.props.recipeData.id}>
           <div className="cardHeader">

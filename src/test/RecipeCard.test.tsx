@@ -108,8 +108,11 @@ test('Edit Card', () => {
   // Change data
   let changeEvt = {target: {name: 'text', value: 'Good Stuff'}};
   component.root.findAllByProps({className:"description"})[0].props.onChange(changeEvt);
+  let listChangeEvt = {target: {name: 'key0', value: 'Bacon'}};
+  component.root.findAllByProps({className:"keyIngredients"})[0].props.onChange(listChangeEvt);
   component.root.findAllByProps({className:"confirmBtn"})[0].props.onClick();
   expect(editCB.mock.calls[0][0].text).toBe('Good Stuff');
+  expect(editCB.mock.calls[0][0].keyIngredients[0]).toBe('Bacon');
 
 });
 
@@ -197,4 +200,44 @@ test('Display QueryMode without select', () => {
      <RecipeCard recipeData={recipeData} queryMode={true} selected={false} onDelete={() => {}} onResize= {() => {}} newRecipe={false}  editRecipe= {() => {}} />);
 
   component.root.findAllByProps({className:"selectBtn"})[0].children[0].props.onClick();
+});
+
+test('Test handle edit list', () => {
+
+  let recipeData = {name: 'Good recipe', id:'ID1', text: 'All the good stuff', keyIngredients: ['1','2','3'], commonIngredients: null}
+  let editCB = jest.fn(() => {});
+  let component = renderer.create(
+     <RecipeCard recipeData={recipeData} queryMode={false} selected={false} onDelete={() => {}} onResize= {() => {}} newRecipe={false} selectRecipe= {() => {}} editRecipe= {editCB} cancelNew = {() => {}} />);
+
+  let editList = component.root.instance.handleChangeList;
+
+  // key ingredients changes key ingredients
+  let changeEvent = {target: {name: 'key1', value:'butter'}};
+  editList(changeEvent);
+  expect(component.root.instance.state.recipeData.keyIngredients[1]).toBe('butter');
+  expect(component.root.instance.state.recipeData.keyIngredients.length).toBe(3);
+
+  // Add new key ingredient
+  changeEvent = {target: {name: 'key3', value:'cake'}};
+  editList(changeEvent);
+  expect(component.root.instance.state.recipeData.keyIngredients[3]).toBe('cake');
+  expect(component.root.instance.state.recipeData.keyIngredients.length).toBe(4);
+  
+  // Erase ingredient
+  changeEvent = {target: {name: 'key2', value:''}};
+  editList(changeEvent);
+  expect(component.root.instance.state.recipeData.keyIngredients[2]).toBe('cake');
+  expect(component.root.instance.state.recipeData.keyIngredients.length).toBe(3);
+ 
+  // blanking last value does nothing
+  changeEvent = {target: {name: 'key4', value:''}};
+  editList(changeEvent);
+  expect(component.root.instance.state.recipeData.keyIngredients[2]).toBe('cake');
+  expect(component.root.instance.state.recipeData.keyIngredients.length).toBe(3);
+  
+  // Add common ingredient
+  changeEvent = {target: {name: 'common0', value:'heat'}};
+  editList(changeEvent);
+  expect(component.root.instance.state.recipeData.commonIngredients[0]).toBe('heat');
+  expect(component.root.instance.state.recipeData.commonIngredients.length).toBe(1);
 });
