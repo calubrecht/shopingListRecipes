@@ -49,3 +49,30 @@ test('Display Card as new', () => {
   expect(component.root.findAllByType('input').length).toBe(3);
 
 });
+
+test('Display QueryMode', () => {
+  let recipeData = {id:'ID1', text: 'All the good stuff'};
+  let component = renderer.create(
+     <RecipeCard recipeData={recipeData} queryMode={true} selected={false} onDelete={() => {}} onResize= {() => {}} newRecipe={false} selectRecipe= {() => {}} editRecipe= {() => {}} />);
+
+  expect(component.root.findAllByProps({className:"editBtn"}).length).toBe(0);
+  expect(component.root.findAllByProps({className:"selectBtn"}).length).toBe(1);
+  expect(component.root.findAllByType(DeleteWidget).length).toBe(0);
+  expect(component.root.findAllByProps({className:"cardTitle"}).length).toBe(1);
+
+});
+
+test('Edit Card', () => {
+
+  let recipeData = {name: 'Good recipe', id:'ID1', text: 'All the good stuff', keyIngredients: ['1','2','3'], commonIngredients: ['4','5']};
+  let component = renderer.create(
+    <WrapperComponent recipeData={recipeData} />
+  );
+  
+  expect(component.root.findAllByProps({className:"name"}).length).toBe(0);
+  expect(component.root.findAllByType(DeleteWidget).length).toBe(1);
+
+  component.root.findAllByProps({className:"editBtn"})[0].children[0].props.onClick();
+  expect(component.root.findAllByType('input').length).toBe(7);
+
+});
