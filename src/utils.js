@@ -1,4 +1,5 @@
-
+// ItemDrag.defaultStartPredicate from muuri/src/Item/Itemdrag.js
+//    couldn't get access to default behavior when wanted to slightly override it so copied it here
 export var defaultStartPredicate = function(item, event, options) {
   var drag = item._drag;
   var predicate = drag._startPredicateData || drag._setupStartPredicate(options);
