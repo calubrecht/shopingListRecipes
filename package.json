@@ -63,6 +63,7 @@
     "collectCoverageFrom": [
       "src/**/*.tsx",
       "src/**/*.js",
+      "!src/utils.js",
       "!src/DataService.tsx"
     ],
     "reporters": [
