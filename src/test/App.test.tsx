@@ -10,7 +10,7 @@ jest.mock('../RecipeGrid', () =>  ({
 
 jest.mock('../DataServiceImpl', () =>  ({
   DataServiceImpl:  class {
-    getRecipes() { return Promise.resolve([]) }
+    getRecipes() { return Promise.reject({message:'Oops all berries'}) }
   }
 }));
 
@@ -25,21 +25,31 @@ jest.mock('../APIConstants.js', () => ( {
 
 const wait = () => new Promise(resolve => setTimeout(resolve));
 
-test('Display App', () => {
+beforeEach(() =>
+  {
+    setMock(true);
+  });
+
+test('Display App', async () => {
 
   let component = renderer.create(
      <App />);
 
   expect(component.root.findAllByProps({className:'recipeGrid'}).length).toBe(1);
   expect(component.root.findAllByProps({className:'cb'}).length).toBe(1);
+  await wait();
+  expect(component.root.children[0].children[1].children[0]).toBe("");
 
 
   setMock(false);
   // without mock
   component = renderer.create(
      <App />);
+  await wait();
   expect(component.root.findAllByProps({className:'recipeGrid'}).length).toBe(1);
   expect(component.root.findAllByProps({className:'cb'}).length).toBe(1);
+  expect(component.root.findAllByProps({className:'cb'}).length).toBe(1);
+  expect(component.root.children[0].children[1].children[0]).toBe("Oops all berries");
   setMock(true);
 });
 
@@ -79,5 +89,28 @@ test('Delete recipe', async () => {
   await wait();
   expect(component.root.instance.state.recipes).toStrictEqual([]);
   expect(component.root.instance.state.error).toBe('I hate you');
+
+});
+
+test('Add recipe', async () => {
+
+  let component = renderer.create(
+     <App />);
+
+  await wait();
+  expect(component.root.instance.state.recipes.length).toBe(5);
+  component.root.instance.service = {addRecipe: () => Promise.resolve([{name:'Bojo'}])};
+  component.root.instance.addRecipe({name:'Jaba'});
+  await wait();
+  expect(component.root.instance.state.recipes).toStrictEqual([{name:'Bojo'}]);
+  expect(component.root.instance.state.error).toBe('');
+ 
+  // handle error
+  component.root.instance.service = {addRecipe: () => Promise.reject({message:'What?'})};
+  component.root.instance.addRecipe({name:'Jabba'});
+  await wait();
+  // Functino adds locally before api call
+  expect(component.root.instance.state.recipes).toStrictEqual([{name:'Bojo'}, {name:'Jabba'}]);
+  expect(component.root.instance.state.error).toBe('What?');
 
 });
