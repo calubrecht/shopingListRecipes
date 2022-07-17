@@ -114,3 +114,25 @@ test('Add recipe', async () => {
   expect(component.root.instance.state.error).toBe('What?');
 
 });
+
+test('Edit recipe', async () => {
+
+  let component = renderer.create(
+     <App />);
+
+  await wait();
+  component.root.instance.service = {editRecipe: () => Promise.resolve([{name:'Bojo'}])};
+  component.root.instance.editRecipe({name:"Better Recipe", text:"Made for the better"});
+  await wait();
+  expect(component.root.instance.state.recipes).toStrictEqual([{name:'Bojo'}]);
+  expect(component.root.instance.state.error).toBe('');
+ 
+  // handle error
+  component.root.instance.service = {editRecipe: () => Promise.reject({message:'What?'})};
+  component.root.instance.editRecipe({name:"Bojo", text:"Made for the better"});
+  await wait();
+  // Functino adds locally before api call
+  expect(component.root.instance.state.recipes).toStrictEqual([{name:'Bojo', text:'Made for the better'}]);
+  expect(component.root.instance.state.error).toBe('What?');
+
+});
