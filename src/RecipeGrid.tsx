@@ -57,6 +57,7 @@ export class RecipeGrid extends Component<GridProps, GridState> {
     {
       return <div>
         <h1>Your Recipes</h1>
+        {this.state.addingRecipe && this.renderCardsWithNew() }
         {this.state.addingRecipe || this.state.queryMode ||
             <button onClick={e => this.setState({addingRecipe:true})}>Add Recipe</button>}
       </div>;
