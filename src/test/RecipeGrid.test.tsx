@@ -4,6 +4,7 @@ import {RecipeGrid} from '../RecipeGrid';
 import {RecipeData} from '../DataService';
 import {RecipeCard} from '../RecipeCard';
 import {MuuriComponent, muuriMap} from 'muuri-react';
+import APIConstants from '../APIConstants.js';
 
 jest.mock('../RecipeCard', () =>  ({
   RecipeCard: (props) => {
@@ -125,7 +126,7 @@ test('Respond to select recipe', () => {
   component.root.instance.selectRecipe('Goodedr recipe');
   expect(selectCB.mock.calls.length).toBe(0);
 
-  component.root.instance.setState({'selectCB': selectCB});
+  APIConstants.EXT_CALLBACK_REGISTRY['setSelectCB'](selectCB);
   component.root.instance.selectRecipe('Goodedr recipe');
   expect(selectCB.mock.calls.length).toBe(1);
   expect(selectCB.mock.calls[0][0]).toBe('Goodedr recipe');
